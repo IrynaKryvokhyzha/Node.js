@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products list</title>
+  </head>
+  <script>
+    async function deleteProduct(id) {
+      console.log("=======deleteProduct");
+      console.log(id);
+
+      try {
+        const response = await fetch("/products/", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        });
+
+        if (response.ok) {
+          console.log("Product deleted successfully");
+          // Перенаправлення на список товарів після видалення
+          window.location.href = "/products";
+        } else {
+          console.error("Failed to delete product");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  </script>
+  <body>
+    <%products.forEach(product=>{%>
+    <div>
+      <a href="/products/<%=product.id%>"> <%=product.title%></a>
+      <span><%=product.price%></span>
+      <a href="/products/edit/<%=product.id%>">Edit</a>
+      <button onclick="deleteProduct(<%= product.id %>)">Delete</button>
+    </div>
+    <%})%>
+    <a href="/products/create">Add new product</a>
+  </body>
+</html>
