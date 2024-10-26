@@ -1,0 +1,25 @@
+header {
+  background-color: #007bff;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.nav-list li {
+  display: inline;
+  margin-right: 20px;
+}
+
+.nav-list li a {
+  color: white;
+  transition: color 0.3s;
+}
+
+.nav-list li a:hover {
+  color: #ffcc00;
+}
+
+.site-title {
+  margin: 10px 0 0;
+  font-size: 2em;
+}
