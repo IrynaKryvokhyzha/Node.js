@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product info</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
+  </head>
+  <body>
+    <div class="product-details">
+      <h1 class="product-title">Brand: <%= product.brand %></h1>
+      <p class="product-year">Year: <%= product.year %></p>
+      <p class="product-license-plate">
+        License Plate Number: <%= product.licensePlateNum %>
+      </p>
+      <a href="/products" class="back-link">Back to Products List</a>
+    </div>
+  </body>
+</html>
