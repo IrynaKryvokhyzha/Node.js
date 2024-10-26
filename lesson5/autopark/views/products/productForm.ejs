@@ -8,7 +8,14 @@
     <link rel="stylesheet" href="/stylesheets/form.css" />
   </head>
   <body>
-    <form action="/products" method="POST" class="product-form">
+    <h1 class="title">
+      <%= product?.id ? "Edit product" : "Add new product"%>
+    </h1>
+    <form
+      action="/products/register<%= product?.id ? '/' + product.id : '' %>"
+      method="POST"
+      class="product-form"
+    >
       <label for="brand">
         Brand Name
         <input
@@ -17,6 +24,7 @@
           name="brand"
           required
           placeholder="Enter car brand"
+          value="<%=product?.id ? product.brand : '' %>"
         />
       </label>
 
@@ -30,6 +38,7 @@
           placeholder="YYYY"
           min="1886"
           max="2024"
+          value="<%=product?.id ? product.year : ''%>"
         />
       </label>
 
@@ -41,10 +50,13 @@
           name="licensePlateNum"
           required
           placeholder="ABC1234"
+          value="<%= product?.id ? product.licensePlateNum : ''%>"
         />
       </label>
 
-      <button type="submit" class="submit-button">Add Product</button>
+      <button type="submit" class="submit-button">
+        <%= product?.id ? "Save" : "Add" %>
+      </button>
     </form>
   </body>
 </html>

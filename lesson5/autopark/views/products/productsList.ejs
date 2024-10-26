@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Products List</title>
+    <script src="/javascripts/RequestManager.js"></script>
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
   </head>
@@ -23,15 +24,22 @@
               >
             </div>
             <div class="product-actions">
-              <a href="/products/<%=product.id%>" class="edit-button">Edit</a>
-              <button class="delete-button">Delete</button>
+              <a href="/products/register/<%=product.id%>" class="edit-button"
+                >Edit</a
+              >
+              <button
+                onclick="RequestManager.deleteRequest('/products', '<%=product.id%>')"
+                class="delete-button"
+              >
+                Delete
+              </button>
             </div>
           </a>
         </div>
         <%})%>
       </div>
       <div>
-        <a href="/products/create" class="add-button">Add product</a>
+        <a href="/products/register" class="add-button">Add product</a>
       </div>
     </div>
   </body>

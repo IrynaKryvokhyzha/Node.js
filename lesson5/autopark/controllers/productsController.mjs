@@ -10,13 +10,26 @@ class ProductsController {
     const product = Product.getProductById(id);
     res.render("products/productDetail", { product });
   }
-  static createForm(req, res) {
-    res.render("products/productForm", {});
+
+  static registerForm(req, res) {
+    const id = req.params.id;
+    let item = null;
+    if (id) {
+      item = Product.getProductById(id);
+    }
+    res.render("products/productForm", { product: item });
   }
-  static addProduct(req, res) {
+  static registerProduct(req, res) {
     const productData = req.body;
-    Product.addNewProduct(productData);
+    if (req.params.id) {
+      Product.updateProduct(req.params.id, productData);
+    } else {
+      Product.addNewProduct(productData);
+    }
     res.redirect("/products");
+  }
+  static deleteProduct(req, res) {
+    Product.deleteProductById(req.body.id);
   }
 }
 export default ProductsController;
