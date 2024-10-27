@@ -6,6 +6,12 @@
     <title>Document</title>
     <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
     <link rel="stylesheet" href="/stylesheets/form.css" />
+    <script src="/javascripts/RequestManager.js"></script>
+    <script>
+      function onInputFile(event) {
+        RequestManager.handleFileSelect(event, "#imgPreview");
+      }
+    </script>
   </head>
   <body>
     <h1 class="title">
@@ -13,6 +19,7 @@
     </h1>
     <form
       action="/products/register<%= product?.id ? '/' + product.id : '' %>"
+      enctype="multipart/form-data"
       method="POST"
       class="product-form"
     >
@@ -53,6 +60,21 @@
           value="<%= product?.id ? product.licensePlateNum : ''%>"
         />
       </label>
+      <label>
+        Image
+        <input
+          accept="image/"
+          autocomplete="off"
+          type="file"
+          name="prodImg"
+          data-error="Помилка"
+          class="image"
+          onchange="onInputFile(event)"
+        />
+      </label>
+      <div>
+        <img id="imgPreview" class="src" src="/no_image.jpg" />
+      </div>
 
       <button type="submit" class="submit-button">
         <%= product?.id ? "Save" : "Add" %>

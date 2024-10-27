@@ -20,7 +20,7 @@ class ProductsController {
     res.render("products/productForm", { product: item });
   }
   static registerProduct(req, res) {
-    const productData = req.body;
+    const productData = { imgSrc: req.file.filename, ...req.body };
     if (req.params.id) {
       Product.updateProduct(req.params.id, productData);
     } else {

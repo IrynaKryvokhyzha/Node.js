@@ -49,3 +49,6 @@ input:focus {
   align-items: center;
   padding-top: 20px;
 }
+.src {
+  width: 100px;
+}
