@@ -52,3 +52,11 @@ input:focus {
 .src {
   width: 100px;
 }
+.error-msg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  color: red;
+}

@@ -5,37 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="/javascripts/RequestManager.js"></script>
-    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
   </head>
   <body>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>password</th>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% users.forEach(user => { %>
-        <tr>
-          <td><%= user.name %></td>
-          <td><%= user.password %></td>
-          <td><%= user.email %></td>
-          <td>
-            <a href="/users/register/<%= user.id %>">Edit</a>
-            <button
-              onclick="RequestManager.deleteRequest('/users', '<%= user.id %>' )"
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
-    <hr />
-    <a href="/users/register">Додати користувача</a>
+    <div class="wrapper">
+      <%- include('../sections/header', {title: 'User form'})%>
+      <div class="users-container">
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>password</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.password %></td>
+              <td><%= user.email %></td>
+              <td>
+                <a href="/users/register/<%= user.id %>" class="edit-button"
+                  >Edit</a
+                >
+                <button
+                  onclick="RequestManager.deleteRequest('/users', '<%= user.id %>' )"
+                  class="delete-button"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <a href="/users/register" class="add-button">Додати користувача</a>
+      </div>
+    </div>
   </body>
 </html>
