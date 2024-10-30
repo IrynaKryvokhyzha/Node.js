@@ -1,57 +1,72 @@
-import User from "../models/User.mjs";
+import UsersDBService from "../models/user/UsersDBService.mjs";
 import { validationResult } from "express-validator";
-
 class UserController {
-  static usersList(req, res) {
-    const dataList = User.loadUserList();
-
-    res.render("users/usersList", {
-      users: dataList,
-    });
-  }
-  static registerForm(req, res) {
-    const id = req.params.id;
-    let user = null;
-    if (id) {
-      //отримати об"єкт за id
-      user = User.getUserById(id);
+  static async usersList(req, res) {
+    try {
+      const dataList = await UsersDBService.getList();
+      console.log("=========dataList");
+      console.log(dataList);
+      res.render("users/usersList", {
+        users: dataList,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
-    //відредерити сторінку з формою
-    res.render("users/register", {
-      errors: [],
-      data: user,
-    });
   }
-  static registerUser(req, res) {
+  static async registerForm(req, res) {
+    try {
+      const id = req.params.id;
+      let user = null;
+      if (id) {
+        //отримати об"єкт за id
+        user = await UsersDBService.getById(id);
+      }
+      //відредерити сторінку з формою
+      res.render("users/register", {
+        errors: [],
+        data: user,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+  static async registerUser(req, res) {
     // Якщо валідація пройшла успішно, виконуємо логіку реєстрації
     const errors = validationResult(req);
-    console.log("=====>>> errors");
-    console.log(errors);
-
+    const data = req.body;
     if (!errors.isEmpty()) {
-      const data = req.body;
       if (req.params.id) data.id = req.params.id;
       return res.status(400).render("users/register", {
         errors: errors.array(),
         data,
       });
     }
-
-    const { email, password, name } = req.body;
-    if (req.params.id) {
-      // Оновлюємо дані про користувача в базі даних
-      User.updateUser(req.params.id, { email, password, name });
-    } else {
-      // Додаємо користувача в базу даних
-      User.create({ email, password, name });
+    try {
+      const { email, password, name } = req.body;
+      console.log("====>>> req.body");
+      console.log(req.body);
+      if (req.params.id) {
+        // Оновлюємо дані про користувача в базі даних
+        await UsersDBService.update(req.params.id, {
+          email,
+          password,
+          name,
+        });
+      } else {
+        // Додаємо користувача в базу даних
+        await UsersDBService.create({ email, password, name });
+      }
+      res.redirect("/users");
+    } catch (err) {
+      res.status(500).render("users/register", {
+        errors: [{ msg: err.message }],
+        data,
+      });
     }
-
-    res.redirect("/users");
   }
-
   static async deleteUser(req, res) {
     try {
-      await User.deleteUserById(req.body.id);
+      await UsersDBService.deleteById(req.body.id);
       res.json({ success: true });
     } catch (error) {
       res
@@ -60,5 +75,4 @@ class UserController {
     }
   }
 }
-
 export default UserController;
