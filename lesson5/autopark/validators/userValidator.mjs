@@ -1,38 +1,38 @@
-import { body } from 'express-validator'
+import { body } from "express-validator";
 
 class UserValidator {
   static userValidationRules = [
-    body('email').isEmail().withMessage('Invalid email address'),
-    body('password')
+    body("email").isEmail().withMessage("Invalid email address"),
+    body("password")
       .isLength({ min: 6 })
-      .withMessage('Password must be at least 6 characters long'),
-    body('name').not().isEmpty().withMessage('Name is required'),
-  ]
+      .withMessage("Password must be at least 6 characters long"),
+    body("name").not().isEmpty().withMessage("Name is required"),
+  ];
   static userSchema = {
     email: {
       isEmail: {
-        errorMessage: 'Invalid email address',
+        errorMessage: "Invalid email address",
       },
       normalizeEmail: true, // Нормалізує email
     },
     password: {
       isLength: {
         options: { min: 6 },
-        errorMessage: 'Password must be at least 6 characters long',
+        errorMessage: "Password must be at least 6 characters long",
       },
     },
     name: {
       notEmpty: {
-        errorMessage: 'Name is required',
+        errorMessage: "Name is required",
       },
       isLength: {
         options: { min: 3 },
-        errorMessage: 'Username must be at least 3 characters long',
+        errorMessage: "Username must be at least 3 characters long",
       },
       trim: true, // Видаляє пробіли на початку і в кінці
       escape: true, // Екранує HTML символи
     },
-  }
+  };
 }
 
-export default UserValidator
+export default UserValidator;
