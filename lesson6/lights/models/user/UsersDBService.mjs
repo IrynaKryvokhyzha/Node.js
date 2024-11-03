@@ -1,5 +1,4 @@
 import User from "./User.mjs";
-import mongoose from "mongoose";
 
 class UsersDBService {
   static async getList() {

@@ -6,8 +6,14 @@ import mongoose from "mongoose";
 mongoose.Promise = global.Promise;
 
 // Функція для підключення до MongoDB
-export default async function () {
+export default async function (databaseType = "users") {
   try {
+    let mongoURI;
+    if (databaseType === "products") {
+      mongoURI = config.productsMongoURI;
+    } else {
+      mongoURI = config.mongoURI;
+    }
     await mongoose.connect(config.mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
