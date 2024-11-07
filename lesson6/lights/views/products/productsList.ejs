@@ -2,6 +2,7 @@
 <html>
   <head>
     <title><%= title %></title>
+    <script src="/javascripts/RequestManager.js"></script>
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
     <link rel="stylesheet" href="/stylesheets/header.css" />
@@ -14,7 +15,7 @@
         <div class="product">
           <%products.forEach(product=>{%>
           <div class="product-card">
-            <a href="">
+            <a href="/products/<%= product.id %>">
               <div class="item">
                 <div class="product-image"></div>
                 <div class="content">
@@ -25,9 +26,8 @@
                     <span class="product-brand"
                       >Brand: <%= product.brand %></span
                     >
-                    <span class="product-price"><%= product.price %> $</span>
+                    <span class="product-price">$ <%= product.price %></span>
                   </div>
-
                   <div class="product-actions">
                     <a
                       href="/products/productRegister/<%= product.id %>"
@@ -48,7 +48,7 @@
           <%})%>
         </div>
         <div>
-          <a href="products/productRegister" class="add-button">Add user</a>
+          <a href="products/productRegister" class="add-button">Add product</a>
         </div>
       </main>
       <%-include('../sections/footer', {title: 'footer'})%>

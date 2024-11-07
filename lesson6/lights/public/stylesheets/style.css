@@ -92,6 +92,7 @@ body {
 }
 .edit-button,
 .delete-button,
+.back-link,
 .add-button {
   padding: 5px 10px;
   border: none;
@@ -102,13 +103,15 @@ body {
 }
 
 .edit-button,
-.add-button {
+.add-button,
+.back-link {
   background-color: #007bff;
   color: white;
 }
 
 .edit-button:hover,
-.add-button:hover {
+.add-button:hover,
+.back-link:hover {
   background-color: #0056b3;
 }
 
@@ -123,6 +126,7 @@ body {
 .add-button {
   margin: 20px;
 }
+/* Product Styling */
 .product,
 .users-container {
   display: flex;
@@ -161,20 +165,22 @@ body {
   font-size: 1.1em;
   margin: 5px 0;
 }
-.product-description {
+.product-brand {
+  font-size: 0.7em;
 }
 .product-actions {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-bottom: 10px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
 }
 .content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: 10px;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .product-details {

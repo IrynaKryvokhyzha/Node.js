@@ -11,4 +11,6 @@ router.post(
   checkSchema(ProductValidator.productSchema),
   ProductController.registerProduct
 );
+router.get("/:id", ProductController.productDetail);
+router.delete("/", ProductController.deleteProduct);
 export default router;

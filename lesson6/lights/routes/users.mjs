@@ -1,5 +1,5 @@
 import express from "express";
-import UserController from "../controllers/UserController.mjs";
+import UserController from "../controllers/userController.mjs";
 import UserValidator from "../validators/userValidator.mjs";
 import { checkSchema } from "express-validator";
 

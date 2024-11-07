@@ -15,12 +15,21 @@ class ProductController {
       res.status(500).json({ error: err.message });
     }
   }
+  static async productDetail(req, res) {
+    try {
+      const id = req.params.id;
+      const product = await ProductsDBService.getById(id);
+      res.render("products/productDetail", { product });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
   static async registerForm(req, res) {
     try {
       const productId = req.params.id;
       let product = null;
       if (productId) {
-        user = await ProductsDBService.getById(productId);
+        product = await ProductsDBService.getById(productId);
       }
       res.render("products/productRegister", {
         errors: [],

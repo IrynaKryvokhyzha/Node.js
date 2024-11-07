@@ -5,7 +5,9 @@ class UsersDBService {
     try {
       const exists = await User.checkCollectionExists();
       if (exists) {
-        const data = await User.find().exec();
+        const data = await User.find({}, { password: 0 }).exec();
+        // .populate("Type");
+
         return data ?? [];
       }
     } catch (error) {
