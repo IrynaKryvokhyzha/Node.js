@@ -42,8 +42,11 @@ class ProductController {
   static async registerProduct(req, res) {
     const errors = validationResult(req);
     const data = req.body;
+
     console.log("=========productsData");
     console.log(data);
+    //console.log(req.file);
+
     if (!errors.isEmpty()) {
       if (req.params.id) data.id = req.params.id;
       return res.status(400).render("products/productRegister", {
@@ -55,18 +58,18 @@ class ProductController {
       const { title, brand, price, description } = req.body;
       console.log("====>>> req.body");
       console.log(req.body);
+      const productData = { title, brand, price, description };
+
+      if (req.file) {
+        productData.imgSrc = req.file.filename;
+      }
       // Check if we are updating an existing product
       if (req.params.id) {
         // Оновлюємо дані про користувача в базі даних
-        await ProductsDBService.update(req.params.id, {
-          title,
-          brand,
-          price,
-          description,
-        });
+        await ProductsDBService.update(req.params.id, productData);
       } else {
         // Додаємо користувача в базу даних
-        await ProductsDBService.create({ title, brand, price, description });
+        await ProductsDBService.create(productData);
       }
       res.redirect("/products");
     } catch (error) {
