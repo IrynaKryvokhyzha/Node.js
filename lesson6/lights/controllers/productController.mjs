@@ -19,8 +19,14 @@ class ProductController {
     try {
       const id = req.params.id;
       const product = await ProductsDBService.getById(id);
+      if (!product) {
+        return res
+          .status(404)
+          .render("error", { message: "Product not found" });
+      }
       res.render("products/productDetail", { product });
     } catch (err) {
+      console.error("Error fetching product:", err);
       res.status(500).json({ error: err.message });
     }
   }
