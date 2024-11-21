@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('sections/header', {title: 'User form'})%>
+      <main class="page">
+        <div class="container">
+         <% posts.forEach(post => { %>
+            <div class="post">
+              <div class="post-container">
+                <div class="post-header">
+                  <img src="<%= post.img %>" alt="Post Image" class="post-image" />
+                  <span><%= post.post %></span>
+                </div>
+      
+                <button
+                  onclick="RequestManager.deleteRequest('<%= deletePostRoute%>', '<%= post._id %>')"
+                >
+                  Delete post
+                </button>
+              </div>
+              <div class="comments">
+                <h3>Коментарі</h3>
+                <div class="comments-container">
+                  <% post.comments.forEach(comment => { %>
+                  <div class="comment">
+                    <p>
+                      <strong><%= comment.commenter.name %>:</strong> <%=
+                      comment.commentText %>
+                    </p>
+                    <button
+                      onclick="RequestManager.deleteRequest('<%= deleteCommentRoute%>/<%= post._id %>', '<%= comment._id %>')"
+                    >
+                      Delete comment
+                    </button>
+                  </div>
+                  <% }); %>
+                </div>
+                <form action="<%=addCommentBase%>/<%= post._id%>" method="POST">
+                  <input
+                    type="text"
+                    name="commentText"
+                    placeholder="Ваш коментар"
+                    required
+                  />
+                  <select name="commenter" required>
+                    <% users.forEach(user => { %>
+                    <option value="<%= user._id %>"><%= user.name %></option>
+                    <% }); %>
+                  </select>
+                  <button type="submit">Додати коментар</button>
+                </form>
+              </div>
+              <hr />
+            </div>
+            <% }); %>
+            <a href="/posts/register" class="add-user-btn">Додати пост</a>
+          </main>
+          <script>
+            // Оновлення сторінки після додавання/видалення коментарів
+            document.querySelectorAll('.comments form').forEach((form) => {
+              form.addEventListener('submit', function () {
+                location.reload()
+              })
+            })
+          </script>
+        </div>
+      </main>
+      <%-include('sections/footer', {title: 'footer'})%>
+    </div>
+  </body>
+</html>

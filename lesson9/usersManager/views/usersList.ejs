@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Form</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('sections/header', {title: 'User form'}) %>
+      <main class="page">
+        <div class="container">
+          <!-- Form Section -->
+          <section class="user-form">
+            <h2>Filter Users</h2>
+            <form action="/users" method="get">
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" placeholder="Name" id="name" />
+              </div>
+              <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" name="age" placeholder="Age" id="age" />
+              </div>
+              <div class="form-actions">
+                <button type="submit">Filter</button>
+                <a href="/users">
+                  <button type="button">Clear filters</button>
+                </a>
+              </div>
+            </form>
+          </section>
+
+          <!-- Users Table Section -->
+          <section class="user-list">
+            <h2>User List</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Age</th>
+                  <th>Type</th>
+                  <th>Email</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(user => { %>
+                <tr>
+                  <td>
+                    <img src="/<%= user.img %>" height="80" alt="User Image" />
+                  </td>
+                  <td><%= user.name %></td>
+                  <td><%= user.age %></td>
+                  <td><%= user.type.title %></td>
+                  <td><%= user.email %></td>
+                  <td>
+                    <a href="/users/register/<%= user._id %>">Edit</a>
+                    <button
+                      onclick="RequestManager.deleteRequest('/users', '<%= user.id %>')"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            <a href="/users/register" class="add-user-btn">Add User</a>
+          </section>
+        </div>
+      </main>
+      <%- include('sections/footer', {title: 'footer'}) %>
+    </div>
+  </body>
+</html>
