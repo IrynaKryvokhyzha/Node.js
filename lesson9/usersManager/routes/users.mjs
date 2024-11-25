@@ -2,7 +2,6 @@ import express from "express";
 import UserController from "../controllers/userController.mjs";
 import UserValidator from "../validators/userValidator.mjs";
 import { checkSchema } from "express-validator";
-import multer from "multer";
 import UploadManager from "../utils/UploadManager.mjs";
 
 const router = express.Router();
@@ -11,7 +10,7 @@ router.get("/", UserController.usersList);
 router.get("/register/:id?", UserController.registerForm);
 router.post(
   "/register/:id?",
-  UploadManager.single("userImg"),
+  UploadManager.single("userImg"), //ці зобр.зберігаєм у файловфй системі
   checkSchema(UserValidator.userSchema),
   UserValidator.checkFile,
   UserController.registerUser

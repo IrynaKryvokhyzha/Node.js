@@ -1,4 +1,65 @@
 class RequestManager {
+  //---- data from params
+  static async doPostRequest(url, data, redirectRoute) {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        window.location.href = redirectRoute;
+      } else {
+        const result = await response.json();
+        this.showErrors(result.errors);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      this.showErrors([{ message: "Network error. Please try again later." }]);
+    }
+  }
+
+  static showErrors(errors) {
+    const errorsContainer = document.getElementById("errors");
+    errorsContainer.innerHTML = "";
+    errors.forEach((error) => {
+      const errorMessage = document.createElement("div");
+      errorMessage.classList.add("error-message");
+      errorMessage.textContent = error.message;
+      errorsContainer.appendChild(errorMessage);
+    });
+  }
+
+  //--- data from form
+  static async postFormRequest(route, form) {
+    const formData = new FormData(form);
+    formData.append();
+    const response = await fetch(route, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    console.log("=====--->>data");
+    console.log(data);
+
+    return data;
+  }
+
+  static async postRequest(route, body) {
+    const response = await fetch(route, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    return data;
+  }
+
   static async deleteRequest(route, id) {
     const response = await fetch(route, {
       method: "DELETE",

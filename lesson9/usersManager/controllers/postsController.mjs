@@ -36,7 +36,7 @@ class PostsController {
       const id = req.params.id;
       let dataItem = {};
       if (id) {
-        dataItem = await TypesDBService.getById(id);
+        dataItem = await PostsDBService.getById(id);
       }
       const usersList = await UsersDBService.getList({});
       //відредерити сторінку з формою
@@ -147,7 +147,7 @@ class PostsController {
 
   static async createComment(req, res) {
     try {
-      const post = await PostsDBService.getById(req.params.id);
+      const post = await PostsDBService.getById(req.params.postId);
       if (!post) {
         throw new Error("Post not found");
       }

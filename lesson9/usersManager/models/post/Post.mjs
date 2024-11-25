@@ -18,13 +18,16 @@ const postSchema = new Schema({
     required: true,
   },
   img: {
-    type: String,
+    type: String, //тут зберігаємо саме зображення base64(так зберіг іконки,логотипи,превю до товара), а не шлях до нього
   },
-  authors: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  authors: [
+    //(це масив із id)
+    {
+      type: mongoose.Schema.Types.ObjectId, //зберіг id
+      ref: "User",
+      required: true,
+    },
+  ],
   comments: [commentSchema],
 });
 

@@ -27,45 +27,46 @@
   </head>
   <body>
     <%- include('../sections/header', { title: '' }) %>
+    <div class="container">
+      <div class="form-container">
+        <h1><%= headerTitle %></h1>
 
-    <div class="form-container">
-      <h1><%= headerTitle %></h1>
+        <div id="errors"></div>
+        <div id="container"></div>
+      </div>
 
-      <div id="errors"></div>
-      <div id="container"></div>
+      <script type="module">
+                const fields = <%- JSON.stringify(fields) %>;
+                const initialValues = <%- JSON.stringify(initialValues) %>;
+              const submitUrl = '<%- submitUrl %>';
+              const redirectUrl = '<%- redirectUrl %>';
+
+
+
+        function displayErrors(errorsList) {
+            const errorsContainer = document.getElementById('errors')
+                    errorsContainer.innerHTML=''
+                    const ul = document.createElement('ul')
+                    res.errors.forEach(error=>{
+                        const li = document.createElement('li')
+                        li.innerText=error.message
+                        ul.append(li)
+                    })
+        }
+
+
+              const submitCallback =async (data) => {
+                const res = await RequestManager.doPostRequest(submitUrl, data, redirectUrl);
+                if(res.errors){
+                  displayErrors(errors)
+                }
+              };
+
+              document.addEventListener('DOMContentLoaded', () => {
+                const form = new FormManager(fields, submitCallback, initialValues);
+                  form.render('container');
+                });
+      </script>
     </div>
-
-    <script type="module">
-              const fields = <%- JSON.stringify(fields) %>;
-              const initialValues = <%- JSON.stringify(initialValues) %>;
-            const submitUrl = '<%- submitUrl %>';
-            const redirectUrl = '<%- redirectUrl %>';
-
-
-
-      function displayErrors(errorsList) {
-          const errorsContainer = document.getElementById('errors')
-                  errorsContainer.innerHTML=''
-                  const ul = document.createElement('ul')
-                  res.errors.forEach(error=>{
-                      const li = document.createElement('li')
-                      li.innerText=error.message
-                      ul.append(li)
-                  })
-      }
-
-
-            const submitCallback =async (data) => {
-              const res = await RequestManager.doPostRequest(submitUrl, data, redirectUrl);
-              if(res.errors){
-                displayErrors(errors)
-              }
-            };
-
-            document.addEventListener('DOMContentLoaded', () => {
-              const form = new FormManager(fields, submitCallback, initialValues);
-                form.render('container');
-              });
-    </script>
   </body>
 </html>

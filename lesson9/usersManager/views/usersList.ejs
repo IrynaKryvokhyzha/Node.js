@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
     <link rel="stylesheet" href="/stylesheets/header.css" />
     <link rel="stylesheet" href="/stylesheets/footer.css" />
+    <script src="/javascripts/RequestManager.js"></script>
   </head>
   <body>
     <div class="wrapper">
@@ -53,7 +54,7 @@
                 <% users.forEach(user => { %>
                 <tr>
                   <td>
-                    <img src="/<%= user.img %>" height="80" alt="User Image" />
+                    <img src="<%= user.img %>" height="80" alt="User Image" />
                   </td>
                   <td><%= user.name %></td>
                   <td><%= user.age %></td>
