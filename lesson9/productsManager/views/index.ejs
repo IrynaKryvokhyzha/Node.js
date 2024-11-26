@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('sections/header', {title: 'User form'})%>
+      <main class="container">
+        <h1><%= title %></h1>
+        <p>Welcome to <%= title %></p>
+        <h2>Задача 1.</h2>
+        <p>
+          Розробити додаток для операцій з товарами (назва, ціна, кількість) з
+          такими маршрутами:
+        </p>
+        <p>/products – відображаємо список товарів,</p>
+        <p>
+          /login – при авторизації додаємо до сесії ім’я користувача і
+          переходимо до сторінки «products» (при цьому товари відображаються у
+          порядку зростання ціни),
+        </p>
+        <p>
+          /addProduct– додаємо товар і переходимо на сторінку «products» (при
+          цьому товари відображаються у порядку спадання ціни)
+        </p>
+        <p>
+          Подумайте як передати інформацію про сортування товарів при переході
+          на сторінку «/products»
+        </p>
+      </main>
+      <%-include('sections/footer', {title: 'footer'})%>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  height: 100%;
+
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 2rem auto;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.wrapper > main {
+  flex-grow: 1;
+}
+.page {
+  height: 100%;
+}

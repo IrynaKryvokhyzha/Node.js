@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+    <script src="/javascripts/RequestManager.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('sections/header', {title: 'User form'})%>
+      <main class="container">
+        <div class="product">
+          <%products.forEach(product=>{%>
+          <h1>Products List</h1>
+          <div class="product-card">
+            <a href="/products/<%= product.id %>">
+              <div class="item">
+                <div class="content">
+                  <div class="product-details">
+                    <h2 class="product-title">
+                      <%= product.title %>
+                    </h2>
+                    <span class="product-brand"
+                      >Quantity: <%= product.quantity %></span
+                    >
+                    <span class="product-price">$ <%= product.price %></span>
+                  </div>
+                  <div class="product-actions">
+                    <a
+                      href="/products/register/<%= product.id %>"
+                      class="edit-button"
+                      >Edit</a
+                    >
+                    <button
+                      onclick="RequestManager.deleteRequest('/products', '<%= product.id %>')"
+                      class="delete-button"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <%})%>
+        </div>
+        <div>
+          <a href="products/productRegister" class="add-button">Add product</a>
+        </div>
+      </main>
+      <%-include('sections/footer', {title: 'footer'})%>
+    </div>
+  </body>
+</html>

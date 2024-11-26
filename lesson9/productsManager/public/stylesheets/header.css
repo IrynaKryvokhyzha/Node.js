@@ -1,0 +1,25 @@
+header {
+  background-color: #9d8189;
+  padding: 20px;
+  text-align: center;
+  z-index: 10;
+}
+
+.nav-list li {
+  display: inline;
+  margin-right: 20px;
+}
+
+.nav-list li a {
+  color: black;
+  transition: color 0.3s ease;
+}
+
+.nav-list li a:hover {
+  color: rgb(55, 53, 53);
+}
+
+.site-title {
+  margin: 10px 0 0;
+  font-size: 2em;
+}
