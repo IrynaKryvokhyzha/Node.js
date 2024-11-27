@@ -24,7 +24,7 @@ class ProductController {
       if (productId) {
         product = await ProductsDBService.getById(productId);
       }
-      res.render("products/register", {
+      res.render("register", {
         errors: [],
         data: product,
       });
@@ -41,7 +41,7 @@ class ProductController {
 
     if (!errors.isEmpty()) {
       if (req.params.id) data.id = req.params.id;
-      return res.status(400).render("products/productRegister", {
+      return res.status(400).render("register", {
         errors: errors.array(),
         data,
       });
@@ -63,7 +63,7 @@ class ProductController {
       res.redirect("/products");
     } catch (error) {
       console.error("Error registering product:", error);
-      res.status(500).render("products/register", {
+      res.status(500).render("register", {
         errors: [{ msg: error.message }],
         data,
       });

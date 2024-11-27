@@ -32,5 +32,12 @@ class ProductsDBService {
       console.error("Error updating product:", error);
     }
   }
+  static async getById(id) {
+    try {
+      return await Product.findById(id);
+    } catch (error) {
+      console.error("Error finding product by id:", error);
+    }
+  }
 }
 export default ProductsDBService;

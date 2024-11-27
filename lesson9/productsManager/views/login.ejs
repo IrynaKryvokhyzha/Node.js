@@ -1,11 +1,44 @@
 <!DOCTYPE html>
-<html>
-  <head> </head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css" />
+    <link rel="stylesheet" href="/stylesheets/login.css" />
+  </head>
   <body>
-    <div class="wrapper">
-      <main class="container">
-        <h1>login</h1>
-      </main>
+    <div class="login-container">
+      <h2>Login</h2>
+      <form action="/login" method="POST" class="login-form">
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="userName"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        <div class="error-message">
+          <!-- This will be dynamically filled with errors if any -->
+        </div>
+        <button type="submit" class="login-btn">Log In</button>
+        <p class="signup-link">
+          Don't have an account? <a href="/signup">Sign up here</a>
+        </p>
+      </form>
     </div>
   </body>
 </html>
