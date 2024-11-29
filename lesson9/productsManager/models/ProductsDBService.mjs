@@ -1,11 +1,11 @@
 import Product from "./Products.mjs";
 
 class ProductsDBService {
-  static async getList() {
+  static async getList(filter = {}, options = {}) {
     try {
       const exists = await Product.checkCollectionExists();
       if (exists) {
-        const data = await Product.find().exec();
+        const data = await Product.find().sort(options.sort).exec();
         return data ?? [];
       }
     } catch (error) {
@@ -37,6 +37,13 @@ class ProductsDBService {
       return await Product.findById(id);
     } catch (error) {
       console.error("Error finding product by id:", error);
+    }
+  }
+  static async deleteById(id) {
+    try {
+      return await Product.findByIdAndDelete(id);
+    } catch (error) {
+      console.error("Error deleting product:", error);
     }
   }
 }

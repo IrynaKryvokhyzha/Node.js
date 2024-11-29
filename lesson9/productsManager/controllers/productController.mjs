@@ -4,14 +4,20 @@ import { validationResult } from "express-validator";
 class ProductController {
   static async productsList(req, res) {
     try {
-      const filters = {};
-      for (const key in req.query) {
-        if (req.query[key]) filters[key] = req.query[key];
+      let sortOption = {};
+      // Only apply sorting if the user is authenticated
+      if (req.session.user) {
+        // If user is logged in, apply sorting based on session sort preference
+        sortOption = { price: req.session.sortInAscOrder ? 1 : -1 };
       }
-      const dataList = await ProductsDBService.getList(filters);
+      const dataList = await ProductsDBService.getList(
+        {},
+        { sort: sortOption }
+      );
       res.render("productsList", {
         products: dataList,
         title: "Products List",
+        user: req.session.user,
       });
     } catch (error) {
       res.status(500).json({ error: err.message });
@@ -27,6 +33,7 @@ class ProductController {
       res.render("register", {
         errors: [],
         data: product,
+        user: req.session.user,
       });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -51,7 +58,7 @@ class ProductController {
       console.log("====>>> req.body");
       console.log(req.body);
       const productData = { title, price, quantity };
-
+      req.session.sortInAscOrder = -1;
       // Check if we are updating an existing product
       if (req.params.id) {
         // Оновлюємо дані про користувача в базі даних
@@ -67,6 +74,16 @@ class ProductController {
         errors: [{ msg: error.message }],
         data,
       });
+    }
+  }
+  static async deleteProduct(req, res) {
+    try {
+      await ProductsDBService.deleteById(req.body.id);
+      res.json({ success: true });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Failed to delete product" });
     }
   }
 }
