@@ -1,0 +1,18 @@
+<header>
+  <nav>
+    <ul class="nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/products">Products</a></li>
+      <li>
+        <a href='/<%=user?"logout":"login"%>'
+          ><%= user ? 'Logout' : 'Login' %></a
+        >
+      </li>
+      <li class="user">
+        <% if (user) { %>
+        <p>Welcome, <%= user.userName %>!</p>
+        <% } %>
+      </li>
+    </ul>
+  </nav>
+</header>

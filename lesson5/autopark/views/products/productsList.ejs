@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products List</title>
+    <script src="/javascripts/RequestManager.js"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('../sections/header', {title: 'User form'})%>
+      <div class="product-container">
+        <%products.forEach(product=>{%>
+        <div class="product-card">
+          <a href="/products/<%= product.id %>">
+            <div class="item">
+              <div class="image">
+                <img src="<%=product.imgSrc%>" />
+              </div>
+              <div class="content">
+                <div class="product-details">
+                  <h2 class="product-title">
+                    <%= product.brand %>
+                  </h2>
+                  <span class="product-year"><%= product.year %></span>
+                  <span class="product-license-plate"
+                    ><%= product.licensePlateNum %></span
+                  >
+                </div>
+
+                <div class="product-actions">
+                  <a
+                    href="/products/register/<%=product.id%>"
+                    class="edit-button"
+                    >Edit</a
+                  >
+                  <button
+                    onclick="RequestManager.deleteRequest('/products', '<%=product.id%>')"
+                    class="delete-button"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <%})%>
+      </div>
+      <div>
+        <a href="/products/register" class="add-button">Add product</a>
+      </div>
+    </div>
+    <%-include('../sections/footer', {title: 'footer'})%>
+  </body>
+</html>

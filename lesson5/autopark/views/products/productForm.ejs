@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/recet-styles.css" />
+    <link rel="stylesheet" href="/stylesheets/form.css" />
+    <script src="/javascripts/RequestManager.js"></script>
+    <script>
+      function onInputFile(event) {
+        RequestManager.handleFileSelect(event, "#imgPreview");
+      }
+    </script>
+  </head>
+  <body>
+    <h1 class="title">
+      <%= product?.id ? "Edit product" : "Add new product"%>
+    </h1>
+    <form
+      action="/products/register<%= product?.id ? '/' + product.id : '' %>"
+      enctype="multipart/form-data"
+      method="POST"
+      class="product-form"
+    >
+      <label for="brand">
+        Brand Name
+        <input
+          type="text"
+          id="brand"
+          name="brand"
+          required
+          placeholder="Enter car brand"
+          value="<%=product?.id ? product.brand : '' %>"
+        />
+      </label>
+
+      <label for="year">
+        Year of Manufacture
+        <input
+          type="number"
+          id="year"
+          name="year"
+          required
+          placeholder="YYYY"
+          min="1886"
+          max="2024"
+          value="<%=product?.id ? product.year : ''%>"
+        />
+      </label>
+
+      <label for="licensePlateNum">
+        License Plate Number
+        <input
+          type="text"
+          id="licensePlateNum"
+          name="licensePlateNum"
+          required
+          placeholder="ABC1234"
+          value="<%= product?.id ? product.licensePlateNum : ''%>"
+        />
+      </label>
+      <label>
+        Image
+        <input
+          accept="image/"
+          autocomplete="off"
+          type="file"
+          name="prodImg"
+          data-error="Помилка"
+          class="image"
+          onchange="onInputFile(event)"
+        />
+      </label>
+      <div>
+        <img id="imgPreview" class="src" src="/no_image.jpg" />
+      </div>
+
+      <button type="submit" class="submit-button">
+        <%= product?.id ? "Save" : "Add" %>
+      </button>
+    </form>
+  </body>
+</html>
