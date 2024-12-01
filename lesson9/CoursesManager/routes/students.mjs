@@ -7,6 +7,10 @@ const router = express.Router();
 
 router.get("/", StudentController.studentsList);
 router.get("/register/:id?", StudentController.registerForm);
-router.post("/register/:id?", StudentController.register);
+router.post(
+  "/register/:id?",
+  checkSchema(StudentValidator.studentSchema),
+  StudentController.register
+);
 router.delete("/", StudentController.deleteStudent);
 export default router;

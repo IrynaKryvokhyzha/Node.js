@@ -72,6 +72,7 @@ p {
   text-decoration: none;
   border-radius: 4px;
   font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 .add-user-btn:hover {
@@ -126,6 +127,7 @@ p {
 .form-actions a button {
   background-color: #f44336;
   margin-left: 10px;
+  transition: all 0.3s ease;
 }
 
 .form-actions a button:hover {
@@ -175,6 +177,7 @@ table td button {
   padding: 8px 15px;
   cursor: pointer;
   border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 table td button:hover {
