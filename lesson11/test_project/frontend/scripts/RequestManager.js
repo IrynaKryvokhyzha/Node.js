@@ -50,31 +50,17 @@ class RequestManager {
         body: JSON.stringify(data),
       });
 
-      const textResponse = await response.text(); // Read as text first to inspect it
-      console.log("Raw response:", textResponse);
-
-      let resData;
-      try {
-        resData = JSON.parse(textResponse);
-      } catch (error) {
-        console.error("Response is not JSON:", err);
-        this.showErrors([{ message: "Unexpected response format." }]);
-        return;
-      }
-
+      const resData = await response.json();
       console.log("resData===============", resData);
-
-      // const resData = await response.json();
-      // console.log('resData===============', resData);
       // Обробка успішного запиту
-      // if (response.ok) {
-      //   if (callback) {
-      //     callback(resData);
-      //   }
-      //   window.location.href = redirectRoute;
-      // } else {
-      //   this.showErrors([{ message: "Something went wrong." }]);
-      // }
+      if (response.ok) {
+        if (callback) {
+          callback(resData);
+        }
+        window.location.href = redirectRoute;
+      } else {
+        this.showErrors([{ message: "Something went wrong." }]);
+      }
     } catch (error) {
       console.error("Error:", error);
       this.showErrors([{ message: "Network error. Please try again later." }]);

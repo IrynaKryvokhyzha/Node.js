@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Page</title>
+    <link rel="stylesheet" href="./style/main.css" />
+    <link rel="stylesheet" href="./style/style.css" />
+    <script src="scripts/RequestManager.js"></script>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/HeaderManager.js"></script>
+    <script src="scripts/LoginApiManager.js"></script>
+  </head>
+  <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        new HeaderManager("index.html", menuItems);
+      });
+    </script>
+    <main>
+      <div class="wrapper">
+        <div class="container">
+          <h1>Задача 11</h1>
+          <div>
+            <p>
+              Доробити навчальний проєкт
+            </p>
+          </div>
+          <div>
+            <p>
+              1)не відображати посилання "Додати новий продукт" , якщо
+              користувач не пройшов автентифікацію
+            </p>
+          </div>
+          <div>
+            <p>
+              2)Допрацювати можливість додавання продуктів, редагування та
+              видалення (необхідно додавати токени у запити)
+            </p>
+          </div>
+          <div>
+            <p>
+              3) Допрацювати можливість додавання користувачів, редагування та
+              видалення (необхідно додавати токени у запити)
+            </p>
+          </div>
+          <div>
+            <p>
+              4)якщо користувач не пройшов автентифікацію, а користувач
+              скопіював URL і пробує напряму перейти на сторінку користувачів,
+              то не відображати сторінку, а оразу перенаправляти його на
+              LoginPage
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
