@@ -10,10 +10,10 @@ mongoose.Promise = global.Promise;
 async function connectToMySQL() {
   try {
     const pool = mysql.createPool({
-      host: config.db.mysql.host,
-      user: config.db.mysql.user,
-      password: config.db.mysql.password,
-      database: config.db.mysql.database,
+      host: config.host,
+      user: config.user,
+      password: config.password,
+      database: config.database,
     });
     console.log("Успішно підключено до MySQL");
     return pool;
