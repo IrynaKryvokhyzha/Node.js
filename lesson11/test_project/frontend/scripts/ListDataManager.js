@@ -1,80 +1,80 @@
 class ListDataManager {
   static createTableHeader(fields, createLinkFunction, deleteFunction) {
-    const thead = document.createElement('thead')
-    const headerRow = document.createElement('tr')
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
 
     for (let key in fields) {
-      const th = document.createElement('th')
-      th.textContent = fields[key]
-      headerRow.appendChild(th)
+      const th = document.createElement("th");
+      th.textContent = fields[key];
+      headerRow.appendChild(th);
     }
 
     if (createLinkFunction) {
-      const editTh = document.createElement('th')
-      editTh.textContent = 'Редагувати'
-      headerRow.appendChild(editTh)
+      const editTh = document.createElement("th");
+      editTh.textContent = "Редагувати";
+      headerRow.appendChild(editTh);
     }
     if (deleteFunction) {
-      const deleteTh = document.createElement('th')
-      deleteTh.textContent = 'Видалити'
-      headerRow.appendChild(deleteTh)
+      const deleteTh = document.createElement("th");
+      deleteTh.textContent = "Видалити";
+      headerRow.appendChild(deleteTh);
     }
-    thead.appendChild(headerRow)
-    return thead
+    thead.appendChild(headerRow);
+    return thead;
   }
 
   static createTableRow(item, fields, createLinkFunction, deleteFunction) {
-    const row = document.createElement('tr')
+    const row = document.createElement("tr");
 
     for (let key in fields) {
-      const td = document.createElement('td')
-      if (key === 'img' || key === 'image') {
-        const img = document.createElement('img')
-        img.src = item[key]
-        // img.src = 'data:image;base64,' + item[key]
-        img.alt = fields[key]
-        img.style.width = '100px' // Задайте бажану ширину зображення
-        td.appendChild(img)
+      const td = document.createElement("td");
+      if (key === "img" || key === "image") {
+        const img = document.createElement("img");
+        img.src = item[key];
+        //   img.src = "data:image;base64," + item[key];
+        img.alt = fields[key];
+        img.style.width = "100px"; // Задайте бажану ширину зображення
+        td.appendChild(img);
       } else {
-        td.textContent = item[key]
+        td.textContent = item[key];
       }
-      row.appendChild(td)
+      row.appendChild(td);
     }
 
     if (createLinkFunction) {
-      const editTd = document.createElement('td')
-      const editLink = document.createElement('a')
-      editLink.href = createLinkFunction(item._id)
-      editLink.textContent = 'Редагувати'
-      editTd.appendChild(editLink)
-      row.appendChild(editTd)
+      const editTd = document.createElement("td");
+      const editLink = document.createElement("a");
+      editLink.href = createLinkFunction(item._id);
+      editLink.textContent = "Редагувати";
+      editTd.appendChild(editLink);
+      row.appendChild(editTd);
     }
     if (deleteFunction) {
-      const deleteTd = document.createElement('td')
-      const deleteButton = document.createElement('button')
-      deleteButton.textContent = 'Видалити'
-      deleteButton.onclick = () => deleteFunction(item._id)
-      deleteTd.appendChild(deleteButton)
-      row.appendChild(deleteTd)
+      const deleteTd = document.createElement("td");
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Видалити";
+      deleteButton.onclick = () => deleteFunction(item._id);
+      deleteTd.appendChild(deleteButton);
+      row.appendChild(deleteTd);
     }
-    return row
+    return row;
   }
 
   static createTableFromList(data, fields, createLinkFunction, deleteFunction) {
     // Створення таблиці
-    const table = document.createElement('table')
-    table.border = '1'
+    const table = document.createElement("table");
+    table.border = "1";
 
     // Створення заголовку таблиці
     const thead = this.createTableHeader(
       fields,
       createLinkFunction,
       deleteFunction
-    )
-    table.appendChild(thead)
+    );
+    table.appendChild(thead);
 
     // Створення тіла таблиці
-    const tbody = document.createElement('tbody')
+    const tbody = document.createElement("tbody");
 
     data.forEach((item) => {
       const row = this.createTableRow(
@@ -82,13 +82,13 @@ class ListDataManager {
         fields,
         createLinkFunction,
         deleteFunction
-      )
-      tbody.appendChild(row)
-    })
+      );
+      tbody.appendChild(row);
+    });
 
-    table.appendChild(tbody)
+    table.appendChild(tbody);
 
     // Виведення таблиці на сторінку
-    return table
+    return table;
   }
 }

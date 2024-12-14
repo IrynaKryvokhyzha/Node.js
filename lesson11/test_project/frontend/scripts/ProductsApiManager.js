@@ -9,10 +9,10 @@ class ProductsApiManager {
     return RequestManager.doPostRequest(
       `/products/register/${id}`,
       data,
-      "/list"
+      "./list.html"
     );
   }
   static async deleteProduct(id) {
-    return RequestManager.deleteRequest("/products/delete", id);
+    return RequestManager.deleteRequest("/products", id);
   }
 }

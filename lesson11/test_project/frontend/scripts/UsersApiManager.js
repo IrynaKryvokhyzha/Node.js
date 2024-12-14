@@ -3,17 +3,13 @@ class UsersApiManager {
     return RequestManager.fetchData("/users");
   }
   static async getUserById(id) {
-    return RequestManager.fetchData(`/users/${id}`);
+    return RequestManager.fetchData(`/users/register/${id}`);
   }
-  static async addUser(data) {
-    return RequestManager.postRequest("/users/register", data, "/", () => {});
-  }
-  static async editUser(id, data) {
+  static async addUser(data, id) {
     return RequestManager.postRequest(
-      `/users/register${id}`,
+      `/users/register/${id}`,
       data,
-      "/",
-      () => {}
+      "./list.html"
     );
   }
   static async deleteUser(id) {

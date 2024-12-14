@@ -1,24 +1,16 @@
-import express from 'express'
-import UserController from '../controllers/userController.mjs'
-import UserValidator from '../../../validators/userValidator.mjs'
+import express from "express";
+import UserController from "../controllers/userController.mjs";
+import UserValidator from "../../../validators/userValidator.mjs";
+import { checkSchema } from "express-validator";
 
-import { checkSchema } from 'express-validator'
-// import UploadManager from '../utils/UploadManager.mjs'
-
-const router = express.Router()
-
-router.get('/', UserController.usersList)
-
-router.get('/register/:id?', UserController.registerForm)
-
+const router = express.Router();
+router.get("/", UserController.usersList);
+router.get("/register/:id?", UserController.registerForm);
 router.post(
-  '/register/:id?',
-  // UploadManager.single('userImg'),
+  "/register/:id?",
   checkSchema(UserValidator.userSchema),
-  // UserValidator.checkFile,
   UserController.registerUser
-)
+);
+router.delete("/", UserController.deleteUser);
 
-router.delete('/', UserController.deleteUser)
-
-export default router
+export default router;

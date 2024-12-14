@@ -60,10 +60,11 @@
             let prodObj = {};
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get("id") || "";
+            console.log("id============", id);
             if (id) {
-              prodObj = await ProductsApiManager.getProductById(id);
+              prodObj = (await ProductsApiManager.getProductById(id))?.data;
               console.log("Product Data:==================", prodObj);
-              if (!prodObj?.product)
+              if (!prodObj)
                 throw new Error("Продукт відстуній або був видалений");
             }
             if (prodObj.image && !prodObj.image.startsWith("data:")) {

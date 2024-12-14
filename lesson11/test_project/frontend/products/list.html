@@ -34,14 +34,13 @@
     </div>
     <hr />
     <!-- Посилання для додавання нового продукту -->
-    <a href="./register.html">Додати новий продукт</a>
+    <a href="./register.html" class="add-product">Додати новий продукт</a>
 
     <script>
       // Функція, що виконується при завантаженні сторінки
       window.onload = async function () {
         const data = await ProductsApiManager.getProducts();
         console.log("data", data);
-        //   const deleteRoute = "/delete-product";
 
         // Функція для видалення продукту за ідентифікатором
         async function deleteFunction(id) {
@@ -65,18 +64,19 @@
             // Обробка зображень продуктів
             const productsList = data.products.map((prod) => ({
               ...prod,
-              image: "data:image;base64," + prod.image,
+              //   image: "data:image;base64," + prod.image,
+              image: prod.image,
             }));
 
             if (productsList) {
               const fields = {
-                image: "",
+                image: "Зображення",
                 title: "Назва",
                 price: "Ціна",
-                description: "",
+                description: "Опис",
               };
 
-              const createLinkFunction = (id) => `/edit-product/${id}`;
+              const createLinkFunction = (id) => `./register.html?id=${id}`;
               // Створення таблиці продуктів
               const table = ListDataManager.createTableFromList(
                 productsList,
@@ -84,12 +84,13 @@
                 // Перевірка авторизації користувача
                 // додаємо пункти для регадування і видаленяня
                 // якщо користувач виконав автентифікацію
-                data?.user?.type === "admin" &&
-                  RequestManager.isAuthenticated() &&
-                  createLinkFunction,
-                data?.user?.type === "admin" &&
-                  RequestManager.isAuthenticated() &&
-                  deleteFunction
+                //  data?.user?.type === "admin" &&
+                //    RequestManager.isAuthenticated() &&
+                createLinkFunction,
+
+                //  data?.user?.type === "admin" &&
+                //    RequestManager.isAuthenticated() &&
+                deleteFunction
               );
 
               tableContainer.append(table);

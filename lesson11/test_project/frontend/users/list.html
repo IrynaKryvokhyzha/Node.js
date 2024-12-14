@@ -12,81 +12,94 @@
     <script src="../scripts/settings.js"></script>
     <script src="../scripts/HeaderManager.js"></script>
     <script src="../scripts/UsersApiManager.js"></script>
+    <!-- <script src="../scripts/UsersTypeApiManager.js"></script> -->
   </head>
   <body>
     <script>
       // Використання класу HeaderManager для створення заголовка з меню
-      document.addEventListener('DOMContentLoaded', () => {
-        new HeaderManager('users/list.html', menuItems)
-      })
+      document.addEventListener("DOMContentLoaded", () => {
+        new HeaderManager("users/list.html", menuItems);
+      });
     </script>
-    <h1>Список користувачів</h1>
+    <!-- <h1>Список користувачів</h1> -->
     <!-- Контейнер для таблиці з користувачами -->
     <div id="table-container"></div>
+
+    <!-- Контейнер для відображення типів користувачів -->
+    <!-- <div id="types-list-container"> -->
+    <!-- <h2>Типи користувачів:</h2> -->
+    <!-- <ul id="types-list"></ul> -->
+    <!-- Empty list that will be populated dynamically -->
+    <!-- </div> -->
+
     <!-- Спіннер завантаження -->
-    <div class="loading" id="loading-spinner" style="display: none">
+    <div class="loading" id="loading-spinner" style="display: none;">
       <div class="spinner"></div>
       Завантаження...
     </div>
     <!-- Повідомлення про помилку -->
-    <div class="error-message" id="error-message" style="display: none">
+    <div class="error-message" id="error-message" style="display: none;">
       Виникла помилка при завантаженні даних.
     </div>
     <hr />
     <!-- Посилання для додавання нового користувача -->
-    <a href="/add-new-user">Додати користувача</a>
+    <a href="./register.html">Додати користувача</a>
 
     <script>
       // Функція, що виконується при завантаженні сторінки
       window.onload = async function () {
-        const deleteRoute = '/delete-user'
-
         // Функція для видалення користувача за ідентифікатором
         async function deleteFunction(id) {
-          await UsersApiManager.deleteUser(id)
-          window.location.reload()
+          const data = await UsersApiManager.deleteUser(id);
+          if (data.doLogout) return RequestManager.onLogout();
+          window.location.reload();
         }
 
         // Функція для отримання даних та відображення таблиці користувачів
         async function fetchDataAndDisplay() {
-          const loadingSpinner = document.getElementById('loading-spinner')
-          const errorMessage = document.getElementById('error-message')
-          const tableContainer = document.getElementById('table-container')
+          const loadingSpinner = document.getElementById("loading-spinner");
+          const errorMessage = document.getElementById("error-message");
+          const tableContainer = document.getElementById("table-container");
 
           try {
-            loadingSpinner.style.display = 'block'
-            tableContainer.innerHTML = ''
-            errorMessage.style.display = 'none'
+            loadingSpinner.style.display = "block";
+            tableContainer.innerHTML = "";
+            errorMessage.style.display = "none";
 
-            const data = await UsersApiManager.getUsers()
-            const usersList = data?.users
+            const data = await UsersApiManager.getUsers();
+            const usersList = data?.users;
 
             if (usersList) {
-              const fields = { username: "Ім'я", email: 'Email' }
+              const fields = {
+                username: "Ім'я",
+                type: "Тип користувача",
+                email: "Email",
+              };
 
-              const createLinkFunction = (id) => `/edit-user/${id}`
+              const createLinkFunction = (id) => `./register.html?id=${id}`;
               const table = ListDataManager.createTableFromList(
                 usersList,
                 fields,
+
                 createLinkFunction,
                 deleteFunction
-              )
+              );
 
-              tableContainer.append(table)
+              tableContainer.append(table);
             } else {
-              throw new Error('Дані відсутні')
+              throw new Error("Дані відсутні");
             }
           } catch (error) {
-            console.error('Помилка при завантаженні даних:', error)
-            errorMessage.style.display = 'block'
+            console.error("Помилка при завантаженні даних:", error);
+            errorMessage.style.display = "block";
           } finally {
-            loadingSpinner.style.display = 'none'
+            loadingSpinner.style.display = "none";
           }
         }
 
         // Виклик функції для отримання та відображення даних
-        fetchDataAndDisplay()
-      }
+        fetchDataAndDisplay();
+      };
     </script>
   </body>
 </html>
