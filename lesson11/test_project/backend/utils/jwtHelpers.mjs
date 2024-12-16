@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "../config/default.mjs";
 // Час дії токена
-const expiresIn = "60m";
+const expiresIn = "1d";
 
 // Секретний ключ для токена (повинен бути збережений у .env файлі)
 const tokenKey = config.tokenKey; // Saved in .env !!!

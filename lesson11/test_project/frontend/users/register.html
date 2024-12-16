@@ -90,14 +90,15 @@
               { name: "username", type: "text", required: true, label: 'Ім"я' },
               { name: "email", type: "email", label: "Email" },
               { name: "password", type: "password", label: "Пароль" },
-              //   {
-              //     name: "type",
-              //     type: "select",
-              //     required: true,
-              //     label: "Тип користувача",
-              //     multiple: false,
-              //     options: typesList,
-              //   },
+              {
+                name: "type",
+                type: "select",
+                required: true,
+                label: "Тип користувача",
+                multiple: false,
+                //  options: typesList,
+                //Options will be dynamically populated
+              },
             ];
             const form = new FormManager(fields, submitCallback, userObj || {});
             form.render("container");

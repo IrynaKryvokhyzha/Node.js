@@ -46,7 +46,7 @@ class UserController {
     }
     const errors = validationResult(req);
     const data = req.body;
-    //  const types = await TypesDBService.getList()
+    const types = await TypesDBService.getList();
 
     if (!errors.isEmpty()) {
       if (req.params.id) data.id = req.params.id;

@@ -18,13 +18,13 @@ const auth = (app) => {
 
   // Middleware для перевірки аутентифікації та авторизації
   app.use((req, res, next) => {
+    //req = const response = await LoginApiManager.login(formData- прийшла з login.html
+
     // Відкриті шляхи, які не потребують авторизації
     const openPathes = [
       "/api/v1/auth/login",
       "/api/v1/auth/signup",
       "/api/v1/products",
-      "/api/v1/products/register/",
-      "/api/v1",
     ];
 
     // Перевірка, чи шлях потребує авторизації

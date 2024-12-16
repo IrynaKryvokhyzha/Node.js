@@ -33,8 +33,9 @@
       Виникла помилка при завантаженні даних.
     </div>
     <hr />
+
     <!-- Посилання для додавання нового продукту -->
-    <a href="./register.html" class="add-product">Додати новий продукт</a>
+    <div id="add-product-link"></div>
 
     <script>
       // Функція, що виконується при завантаженні сторінки
@@ -42,6 +43,22 @@
         const data = await ProductsApiManager.getProducts();
         console.log("data", data);
 
+        // Function to check if the user is admin and authenticated
+        const showAddProductLink = () => {
+          const addProductLink = document.getElementById("add-product-link");
+
+          // Check if user is admin and authenticated
+          if (
+            data?.user?.username === "Iryna" &&
+            RequestManager.isAuthenticated()
+          ) {
+            const link = document.createElement("a");
+            link.href = "./register.html";
+            link.className = "add-product";
+            link.textContent = "Додати новий продукт";
+            addProductLink.appendChild(link);
+          }
+        };
         // Функція для видалення продукту за ідентифікатором
         async function deleteFunction(id) {
           await ProductsApiManager.deleteProduct(id);
@@ -84,13 +101,13 @@
                 // Перевірка авторизації користувача
                 // додаємо пункти для регадування і видаленяня
                 // якщо користувач виконав автентифікацію
-                //  data?.user?.type === "admin" &&
-                //    RequestManager.isAuthenticated() &&
-                createLinkFunction,
+                data?.user?.username === "Iryna" &&
+                  RequestManager.isAuthenticated() &&
+                  createLinkFunction,
 
-                //  data?.user?.type === "admin" &&
-                //    RequestManager.isAuthenticated() &&
-                deleteFunction
+                data?.user?.username === "Iryna" &&
+                  RequestManager.isAuthenticated() &&
+                  deleteFunction
               );
 
               tableContainer.append(table);
@@ -104,7 +121,7 @@
             loadingSpinner.style.display = "none";
           }
         }
-
+        showAddProductLink();
         // Виклик функції для отримання та відображення даних
         fetchDataAndDisplay();
         //   displayLink(data?.user?.type);

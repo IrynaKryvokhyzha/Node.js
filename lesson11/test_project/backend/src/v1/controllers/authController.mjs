@@ -6,27 +6,40 @@ import { prepareToken } from "../../../utils/jwtHelpers.mjs";
 class AuthController {
   static async signup(req, res) {
     try {
+      const types = await TypesDBService.getList();
       const typeId = await TypesDBService.findOne(
         { title: "guest" },
         { _id: 1 }
       );
-      console.log("typeId", typeId);
+      console.log("typeId============", typeId);
+      console.log("types=============", types);
 
       const user = new User({
         email: req.body.email,
         username: req.body.username,
         password: req.body.password,
-        type: typeId,
+        type: typeId._id,
       });
       user.setPassword(req.body.password);
-      const populatedUser = await user.populate("type");
       const savedUser = await user.save();
+      console.log("savedUser=============", savedUser);
+
+      // Populate the 'type' field after saving the user
+      await savedUser.populate("type"); // Populate the type field (e.g., title)
+
+      console.log("savedUser.type:", savedUser.type); // Log the populated 'type' field
+      console.log(
+        "savedUser.type.title:",
+        savedUser.type ? savedUser.type.title : "No type found"
+      );
+
       const token = prepareToken(
         {
           id: savedUser._id,
           username: savedUser.username,
-          type: savedUser.title,
+          type: savedUser.type,
         },
+
         req.headers
       );
       res.status(201).json({
