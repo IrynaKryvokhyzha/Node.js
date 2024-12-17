@@ -32,11 +32,9 @@ const auth = (app) => {
       console.log("req.path===============", req.path);
       try {
         // Парсинг токена та додавання користувача до запиту
-        //   const receivedUserData
         req.user = parseBearer(req.headers.authorization, req.headers, [
           "type",
         ]);
-        //   req.user = await UsersDBService.getById(receivedUserData.id, ["type"]);
         console.log("req.user==============>>>>>>>>>>>>>>>>>>=", req.user);
       } catch (err) {
         // Якщо авторизація не вдалася, повертається статус 401
@@ -50,24 +48,6 @@ const auth = (app) => {
     next(); // Передача обробки наступному middleware
   });
 };
-
-// Middleware для перевірки дозволів
-// const getPermissionsChecker = (model) => (requiredPermission) => {
-//   return (req, res, next) => {
-//     if (!req.user) {
-//       return res.status(403).json({ result: "Permission Denied" });
-//     }
-// Перевірка, чи є необхідний дозвіл у користувача
-//  const hasPermission =
-//    req.user?.type?.pagesPermissions[model][requiredPermission];
-
-//  if (hasPermission) {
-// next(); // Передача обробки наступному middleware
-//  } else {
-//    res.status(403).json({ result: "Permission Denied" });
-//  }
-//   };
-// };
 
 // Експорт функції auth як модуля за замовчуванням
 export { auth };

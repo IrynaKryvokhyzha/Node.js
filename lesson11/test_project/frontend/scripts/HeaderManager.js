@@ -44,6 +44,16 @@ class HeaderManager {
     li.append(a);
     return li;
   }
+
+  // Метод для формування заголовка
+  //   canReadPage(pageMeta) {
+  //     return (
+  //       !pageMeta.requireAuth ||
+  //       (RequestManager.isAuthenticated() &&
+  //         (!pageMeta.pageId ||
+  //           this.user?.pagesPermissions[pageMeta.pageId]?.read))
+  //     );
+  //   }
   // Метод для формування заголовка
   createHeader() {
     const basePath = this.getBasePath();
@@ -56,6 +66,7 @@ class HeaderManager {
     this.menuItems.forEach((item) => {
       //Додаємо пукнт навігації, якщо він не потребує автентифікації
       //або користувач є автентифікованим
+      // if (this.canReadPage(item.meta)) {
       if (!item.meta.requireAuth || RequestManager.isAuthenticated()) {
         const li = this.createMenuItem(item, basePath);
         ul.append(li);
@@ -78,6 +89,10 @@ class HeaderManager {
         userLink.style.display = "block";
         authLink.innerHTML = `<a href="#" id="logout-link">Logout (${user.username})</a>`;
       }
+      // if (this.user) {
+      //   if (userLink) userLink.style.display = "block";
+      //   authLink.innerHTML = `<a href="#" id="logout-link">Logout (${this.user.username})</a>`;
+      // }
     }
 
     document

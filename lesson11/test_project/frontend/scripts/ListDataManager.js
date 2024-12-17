@@ -28,9 +28,10 @@ class ListDataManager {
 
     for (let key in fields) {
       const td = document.createElement("td");
+
       // Check if the key is type, and use item.type.title for the value
       if (key === "type" && item.type) {
-        td.textContent = item.type.title || "No type"; // Display type.title if it exists, otherwise "No type"
+        td.textContent = item.type.title; // Display type.title if it exists, otherwise "No type"
         console.log("item.type.title============", item.type.title);
       }
 

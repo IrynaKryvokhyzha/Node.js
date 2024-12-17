@@ -3,13 +3,13 @@ const menuItems = [
   {
     href: "products/list.html",
     text: "Продукти",
-    meta: { requireAuth: false },
+    meta: { requireAuth: false, pageId: "products" },
   },
   {
     href: "users/list.html",
     text: "Користувачі",
     id: "users-link",
-    meta: { requireAuth: true },
+    meta: { requireAuth: true, pageId: "users" },
   },
   {
     href: "auth/login.html",
