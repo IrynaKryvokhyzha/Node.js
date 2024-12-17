@@ -54,13 +54,13 @@
             const link = document.createElement("a");
             link.href = "./register.html";
             link.className = "add-user";
-            link.textContent = "Додати користувача";
+            link.textContent = "Додати продукт";
             addUserLink.appendChild(link);
           }
         };
         // Функція для видалення користувача за ідентифікатором
         async function deleteFunction(id) {
-          const data = await UsersApiManager.deleteUser(id);
+          const data = await ProductsApiManager.deleteProduct(id);
           if (data.doLogout) return RequestManager.onLogout();
           window.location.reload();
         }
