@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продукти</title>
+    <!-- Підключення CSS для стилів -->
+    <link rel="stylesheet" href="../style/main.css" />
+    <link rel="stylesheet" href="../style/style.css" />
+    <link rel="stylesheet" href="../style/product.css" />
+    <link rel="stylesheet" href="../style/recet-styles.css" />
+    <!-- Підключення необхідних скриптів -->
+    <script src="../scripts/RequestManager.js"></script>
+    <script src="../scripts/GrigDataManager.js"></script>
+    <script src="../scripts/settings.js"></script>
+    <script src="../scripts/HeaderManager.js"></script>
+    <script src="../scripts/ProductsApiManager.js"></script>
+  </head>
+  <body>
+    <script>
+      // Використання класу HeaderManager для створення заголовка з меню
+      document.addEventListener("DOMContentLoaded", () => {
+        new HeaderManager("products/list.html", menuItems);
+      });
+    </script>
+    <div class="wrapper">
+      <div class="container">
+        <h1 class="title">Explore our collection</h1>
+
+        <!-- Контейнер для  продуктів -->
+        <div id="grid-container"></div>
+        <!-- Спіннер завантаження -->
+        <div class="loading" id="loading-spinner" style="display: none;">
+          <div class="spinner"></div>
+          Завантаження...
+        </div>
+        <!-- Повідомлення про помилку -->
+        <div class="error-message" id="error-message" style="display: none;">
+          Виникла помилка при завантаженні даних.
+        </div>
+        <hr />
+
+        <!-- Посилання для додавання нового продукту -->
+        <div id="add-link"></div>
+      </div>
+    </div>
+    <script>
+      // Функція, що виконується при завантаженні сторінки
+      window.onload = async function () {
+        const data = await ProductsApiManager.getProducts();
+        console.log("data", data);
+
+        // Function to check if the user is admin and authenticated
+        const showAddLink = (data) => {
+          const addUserLink = document.getElementById("add-link");
+          // Check if user is admin and authenticated
+          if (
+            RequestManager.isAuthenticated() &&
+            data?.user?.type?.title === "admin"
+          ) {
+            const link = document.createElement("a");
+            link.href = "./register.html";
+            link.className = "add-product";
+            link.textContent = "Додати продукт";
+            addUserLink.appendChild(link);
+          }
+        };
+        // Функція для видалення користувача за ідентифікатором
+        async function deleteFunction(id) {
+          const data = await ProductsApiManager.deleteProduct(id);
+          if (data.doLogout) return RequestManager.onLogout();
+          window.location.reload();
+        }
+
+        // Функція для отримання даних та відображення таблиці продуктів
+        async function fetchDataAndDisplay() {
+          const loadingSpinner = document.getElementById("loading-spinner");
+          const errorMessage = document.getElementById("error-message");
+          const gridContainer = document.getElementById("grid-container");
+
+          try {
+            loadingSpinner.style.display = "block";
+            gridContainer.innerHTML = "";
+            errorMessage.style.display = "none";
+
+            // Отримання даних продуктів з сервера
+            const data = await ProductsApiManager.getProducts();
+            console.log("Fetched data:", data);
+            // Обробка зображень продуктів
+            const productsList = data.products.map((prod) => ({
+              ...prod,
+              //   image: "data:image;base64," + prod.image,
+              image: prod.image,
+            }));
+
+            if (productsList) {
+              const createLinkFunction = (id) => `./register.html?id=${id}`;
+              // Створення таблиці продуктів
+              const grid = GridDataManager.createGridFromList(
+                productsList,
+                RequestManager.isAuthenticated() &&
+                  data?.user?.type?.title === "admin" &&
+                  createLinkFunction,
+
+                RequestManager.isAuthenticated() &&
+                  data?.user?.type?.title === "admin" &&
+                  deleteFunction
+              );
+
+              gridContainer.append(grid);
+            } else {
+              throw new Error("Дані відсутні");
+            }
+          } catch (error) {
+            console.error("Помилка при завантаженні даних:", error);
+            errorMessage.style.display = "block";
+          } finally {
+            loadingSpinner.style.display = "none";
+          }
+        }
+        showAddLink(data);
+        // Виклик функції для отримання та відображення даних
+        fetchDataAndDisplay();
+      };
+    </script>
+  </body>
+</html>
