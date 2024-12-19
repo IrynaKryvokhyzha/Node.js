@@ -11,8 +11,11 @@ class UserController {
       }
 
       const dataList = await UsersDBService.getList(filters);
+      const types = await TypesDBService.getList();
+
       res.status(200).json({
         users: dataList,
+        types,
         user: req.user,
       });
     } catch (err) {

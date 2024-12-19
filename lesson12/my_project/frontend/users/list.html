@@ -80,6 +80,9 @@
             const usersList = data?.users;
 
             if (usersList) {
+              usersList.forEach((user) => {
+                user.type = user.type?.title;
+              });
               const fields = {
                 username: "Ім'я",
                 type: "Тип користувача",
@@ -91,7 +94,7 @@
               const table = ListDataManager.createTableFromList(
                 usersList,
                 fields,
-                data?.user?.type === "admin" &&
+                data?.user?.type.title === "admin" &&
                   RequestManager.isAuthenticated() &&
                   createLinkFunction,
                 data?.user?.type?.title === "admin" &&

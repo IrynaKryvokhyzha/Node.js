@@ -4,7 +4,9 @@ import MongooseCRUDManager from "../MongooseCRUDManager.mjs";
 class UsersDBService extends MongooseCRUDManager {
   async getList(filters) {
     try {
-      const res = await super.getList(filters, { password: 0 }, ["type"]);
+      const res = await super.getList(filters, { password: 0 }, [
+        { fieldForPopulation: "type", requiredFieldsFromTargetObject: "title" },
+      ]);
       // Log the result to inspect the structure
       console.log("Fetched and populated users:", res);
       return res;

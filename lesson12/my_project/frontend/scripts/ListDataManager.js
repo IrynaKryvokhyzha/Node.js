@@ -32,9 +32,6 @@ class ListDataManager {
       // Check if the key is type, and use item.type.title for the value
       if (key === "type" && item.type && item.type.title) {
         td.textContent = item.type?.title || "No type";
-        console.log("item.type============", item.type);
-        console.log("item.type.title============", item.type.title);
-        console.log("item.type.id============", item.type._id);
       }
 
       if (key === "img" || key === "image") {

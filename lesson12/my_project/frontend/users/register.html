@@ -43,17 +43,6 @@
     <script>
       // Функція, що виконується при завантаженні сторінки
       document.addEventListener("DOMContentLoaded", async () => {
-        // Function to fetch typesList
-        //   async function fetchTypesList() {
-        //     try {
-        //       const response = await fetch("/api/user/types");
-        //       const data = await response.json();
-        //       return data.types || []; // Assuming the API returns { types: [...] }
-        //     } catch (error) {
-        //       console.error("Error fetching types list:", error);
-        //       return [];
-        //     }
-        //   }
         // Функція для отримання даних та відображення форми
         async function fetchDataAndDisplay() {
           const loadingSpinner = document.getElementById("loading-spinner");
@@ -66,8 +55,8 @@
             errorMessage.style.display = "none";
 
             // Fetch typesList dynamically
-            // const typesList = await fetchTypesList();
-            // console.log("typesList fetched:", typesList);
+            const response = await RequestManager.fetchData(`/users`);
+            const typesList = response.types;
 
             //----- Вставка форми
             let userObj = {};
@@ -96,8 +85,7 @@
                 required: true,
                 label: "Тип користувача",
                 multiple: false,
-                //  options: types,
-                //Options will be dynamically populated
+                options: typesList,
               },
             ];
             const form = new FormManager(fields, submitCallback, userObj || {});
