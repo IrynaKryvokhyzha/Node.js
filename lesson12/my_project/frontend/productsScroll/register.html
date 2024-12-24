@@ -13,7 +13,6 @@
     <script src="../scripts/ListDataManager.js"></script>
     <script src="../scripts/settings.js"></script>
     <script src="../scripts/HeaderManager.js"></script>
-    <script src="../scripts/BaseApiManager.js"></script>
     <script src="../scripts/UsersApiManager.js"></script>
     <script src="../scripts/ProductsApiManager.js"></script>
   </head>
@@ -39,7 +38,7 @@
     </div>
     <!-- Повідомлення про помилку -->
     <div class="error-message" id="error-message" style="display: none;">
-      Error occurred during loading data...
+      Error occurred during loading products...
     </div>
     <hr />
 
@@ -58,40 +57,21 @@
             errorMessage.style.display = "none";
 
             //----- Вставка форми
-            const prodObj =
-              (await ProductsApiManager.getBasedOnQueryId())?.data ?? {};
-            // redirectUrl = `products/list.html`;
-            console.log("prodObj=====", prodObj);
-
+            let prodObj = {};
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get("id") || "";
+            console.log("id============", id);
+            if (id) {
+              prodObj = (await ProductsApiManager.getProductById(id))?.data;
+              console.log("Product Data:==================", prodObj);
+              if (!prodObj) throw new Error("Product is absent or was deleted");
+            }
             if (prodObj.image && !prodObj.image.startsWith("data:")) {
               prodObj.image = "data:image;base64," + prodObj.image;
             }
             const submitCallback = async (data) => {
-              let res = await ProductsApiManager.register(data, prodObj);
-
-              if (res.errors) {
-                ProductsApiManager.showErrors(res.errors);
-              } else {
-                window.location.href = redirectUrl;
-              }
+              await ProductsApiManager.addProduct(data, id);
             };
-            //---
-
-            // let prodObj = {};
-            // const urlParams = new URLSearchParams(window.location.search);
-            // const id = urlParams.get("id") || "";
-            // console.log("id============", id);
-            // if (id) {
-            //   prodObj = (await ProductsApiManager.getById(id))?.data;
-            //   console.log("Product Data:==================", prodObj);
-            //   if (!prodObj) throw new Error("Product is absent or was deleted");
-            // }
-            // if (prodObj.image && !prodObj.image.startsWith("data:")) {
-            //   prodObj.image = "data:image;base64," + prodObj.image;
-            // }
-            // const submitCallback = async (data) => {
-            //   await ProductsApiManager.add(data, id);
-            // };
             //---
 
             const fields = [

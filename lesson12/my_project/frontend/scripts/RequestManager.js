@@ -25,6 +25,12 @@ class RequestManager {
     }
   }
 
+  static getQueryParam(param) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    return urlParams.get(param);
+  }
+
   // Метод для виконання POST запиту
   static async doPostRequest(
     url,
@@ -99,7 +105,7 @@ class RequestManager {
     }
 
     const formData = new FormData(form);
-    const response = await fetch(this.getServerRoute(url), {
+    const response = await fetch(url, {
       method: "POST",
       headers: headers,
       body: formData,

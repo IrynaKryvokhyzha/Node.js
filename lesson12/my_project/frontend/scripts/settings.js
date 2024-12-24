@@ -1,19 +1,24 @@
 const menuItems = [
-  { href: "index.html", text: "Головна", meta: { requireAuth: false } },
+  { href: "index.html", text: "Home", meta: { requireAuth: false } },
   {
     href: "products/list.html",
-    text: "Продукти",
+    text: "Products",
     meta: { requireAuth: false, pageId: "products" },
   },
   {
+    href: "productsScroll/list.html",
+    text: "ProductsScroll",
+    meta: { requireAuth: false, pageId: "productsScroll" },
+  },
+  {
     href: "users/list.html",
-    text: "Користувачі",
+    text: "Users",
     id: "users-link",
     meta: { requireAuth: true, pageId: "users" },
   },
   {
     href: "auth/login.html",
-    text: "Вхід",
+    text: "Login",
     id: "auth-link",
     meta: { requireAuth: false },
   },

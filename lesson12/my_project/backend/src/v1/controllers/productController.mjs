@@ -2,16 +2,13 @@ import ProductsDBService from "../models/product/ProductsDBService.mjs";
 
 class ProductController {
   // Метод для отримання всіх товарів
+
   static async getAllProducts(req, res) {
     try {
-      const filters = {};
-      for (const key in req.query) {
-        if (req.query[key]) filters[key] = req.query[key];
-      }
-
-      const productsList = await ProductsDBService.getList(filters);
+      const productsData = await ProductsDBService.getList(req.query);
+      console.log("Fetched products data:", productsData); // Log the result here
       res.status(200).json({
-        products: productsList,
+        data: productsData,
         user: req.user,
       });
     } catch (error) {
@@ -19,6 +16,44 @@ class ProductController {
     }
   }
 
+  //   static async getAllProducts(req, res) {
+  //     try {
+  //       const filters = {};
+  //       for (const key in req.query) {
+  //         if (req.query[key]) filters[key] = req.query[key];
+  //       }
+
+  //       const productsList = await ProductsDBService.getList(filters);
+  //       res.status(200).json({
+  //         products: productsList,
+  //         user: req.user,
+  //       });
+  //     } catch (error) {
+  //       res.status(500).json({ error: "Error fetching products" });
+  //     }
+  //   }
+  static async getFiltersData() {}
+  static async getById(req, res) {
+    try {
+      const id = req.params.id;
+
+      let item = await ProductsDBService.getById(id, [
+        //  {
+        //    path: 'seller',
+        //    populate: {
+        //      path: 'type',
+        //    },
+        //  },
+      ]);
+
+      res.status(200).json({
+        data: item,
+        user: req.user,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
   static async registerForm(req, res) {
     try {
       if (!req.user) {

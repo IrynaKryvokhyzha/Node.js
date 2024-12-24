@@ -89,10 +89,6 @@ class HeaderManager {
         userLink.style.display = "block";
         authLink.innerHTML = `<a href="#" id="logout-link">Logout (${user.username})</a>`;
       }
-      // if (this.user) {
-      //   if (userLink) userLink.style.display = "block";
-      //   authLink.innerHTML = `<a href="#" id="logout-link">Logout (${this.user.username})</a>`;
-      // }
     }
 
     document
