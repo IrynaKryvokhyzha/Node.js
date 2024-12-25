@@ -6,7 +6,7 @@ class ProductController {
   static async getAllProducts(req, res) {
     try {
       const productsData = await ProductsDBService.getList(req.query);
-      console.log("Fetched products data:", productsData); // Log the result here
+      // console.log("Fetched products data:", productsData); // Log the result here
       res.status(200).json({
         data: productsData,
         user: req.user,
@@ -37,15 +37,20 @@ class ProductController {
     try {
       const id = req.params.id;
 
-      let item = await ProductsDBService.getById(id, [
+      let item = await ProductsDBService.getById(
+        id
+        //  [
         //  {
         //    path: 'seller',
         //    populate: {
         //      path: 'type',
         //    },
         //  },
-      ]);
-
+        // ]
+      );
+      if (!item) {
+        return res.status(404).json({ error: "Product not found" });
+      }
       res.status(200).json({
         data: item,
         user: req.user,

@@ -6,6 +6,8 @@ import upload from "../../../middleware/UploadManager.mjs";
 
 const router = express.Router();
 router.get("/filters-data", FilterService.getFiltersData);
+router.get("/:id", ProductController.getById);
+
 router.get("/", ProductController.getAllProducts);
 router.get("/register/:id?", ProductController.registerForm);
 router.post(
@@ -13,6 +15,7 @@ router.post(
   upload.single("image"),
   ProductController.registerProduct
 );
+router.put("/:id", upload.single("image"), ProductController.registerProduct);
 
 router.delete("/", ProductController.deleteProduct);
 

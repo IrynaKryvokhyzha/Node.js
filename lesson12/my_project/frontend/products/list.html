@@ -86,7 +86,7 @@
 
             // Функція для видалення користувача за ідентифікатором
             async function deleteFunction(id) {
-              const data = await ProductsApiManager.deleteProduct(id);
+              const data = await ProductsApiManager.delete(id);
               if (data.doLogout) return RequestManager.onLogout();
               window.location.reload();
             }
@@ -144,7 +144,7 @@
                     // prod.sellerType = prod.seller.type.title;
                   });
                   const createLinkFunction = (id) => `./register.html?id=${id}`;
-                  console.log("createLinkFunction", createLinkFunction);
+                  console.log("createLinkFunction===", createLinkFunction);
 
                   // Створення таблиці продуктів
                   const grid = GridDataManager.createGridFromList(

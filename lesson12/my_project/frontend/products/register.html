@@ -60,7 +60,7 @@
             //----- Вставка форми
             const prodObj =
               (await ProductsApiManager.getBasedOnQueryId())?.data ?? {};
-            // redirectUrl = `products/list.html`;
+            redirectUrl = `./list.html`;
             console.log("prodObj=====", prodObj);
 
             if (prodObj.image && !prodObj.image.startsWith("data:")) {
@@ -81,6 +81,8 @@
             // const urlParams = new URLSearchParams(window.location.search);
             // const id = urlParams.get("id") || "";
             // console.log("id============", id);
+            // const res = await ProductsApiManager.getById(id);
+            // console.log("Server Response=====================:", res);
             // if (id) {
             //   prodObj = (await ProductsApiManager.getById(id))?.data;
             //   console.log("Product Data:==================", prodObj);
