@@ -167,7 +167,7 @@
 
                   gridContainer.append(grid);
                 } else {
-                  throw new Error("Дані відсутні");
+                  throw new Error("No data");
                 }
               } catch (error) {
                 console.error("Помилка при завантаженні даних:", error);
@@ -193,12 +193,12 @@
               const filtersConfig = [
                 {
                   name: "title",
-                  title: "Назва товару",
+                  title: "Product Title",
                   type: "search",
                 },
                 {
                   name: "price",
-                  title: "price",
+                  title: "Price",
                   type: "range",
                   options: { min: 0, max: 1000 },
                 },

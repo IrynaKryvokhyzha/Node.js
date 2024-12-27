@@ -11,10 +11,11 @@ class LoadOnScroll {
 
     // Поточна сторінка (починається з 0)
     this.page = 0;
-
+    this.query = "";
+    //this.sort = "price:asc";
     // Флаг завантаження, щоб запобігти багаторазовим завантаженням
     this.loading = false;
-
+    this.noMoreProducts = false; // Flag to check if all products are loaded
     // Ініціалізація класу
     this.init();
   }
@@ -22,34 +23,52 @@ class LoadOnScroll {
   // Асинхронне завантаження елементів
   async loadItems() {
     // Якщо завантаження вже відбувається, виходимо
-    if (this.loading) return;
-
+    if (this.loading || this.noMoreProducts) return;
     // Встановлюємо прапор завантаження
     this.loading = true;
 
     try {
       // Розкоментуйте цей код, якщо завантажуєте дані з API
       const response = await fetch(
-        `${this.baseRoute}?page=${this.page}&limit=${this.itemsPerPage}`
+        //   `/api/v1${this.baseRoute}?page=${this.page}&limit=${this.itemsPerPage}`
+        `http://localhost:3000/api/v1/products?page=${this.page}&limit=${this.itemsPerPage}&${this.query}`
       );
-      const items = await response.json();
+      console.log("response-=-=-=-==--", response);
 
-      // Генеруємо тестові елементи для демонстрації
-      // const items = new Array(this.itemsPerPage)
-      //   .fill({ name: "Тестовий елемент" }) // Задайте значення для властивості name
-      //   .map((item, ind) => ({
-      //     name: `${ind + this.page * this.itemsPerPage}) ${item.name}`,
-      //   }));
+      if (!response.ok) {
+        throw new Error(
+          "Failed to fetch products. HTTP Status: " + response.status
+        );
+      }
+      const resData = await response.json();
+      console.log("resData-=-=-=-==--", resData);
+      if (!resData.data || !resData.data.documents) {
+        throw new Error("Invalid data format or no products found.");
+      }
 
       // Додаємо завантажені елементи до контейнера
-      items.forEach((item) => {
-        const div = document.createElement("div");
-        div.textContent = item.name; // Адаптуйте під структуру ваших даних
-        this.container.append(div);
+      let productsList = resData.data?.documents;
+      let count = resData.data?.count;
+      console.log("productsList==================", productsList);
+      console.log("count==================", count);
+      console.log("productsList.length==================", productsList.length);
+      // If no products were returned, stop further loading
+      if (productsList.length === count) {
+        this.noMoreProducts = true; // Set flag to stop loading
+        console.log("No more products to load.");
+      }
+      // Обробка зображень продуктів
+      productsList.forEach((prod) => {
+        if (prod.image && !prod.image.startsWith("data:"))
+          prod.image = "data:image;base64," + prod.image;
       });
+      // Створення таблиці продуктів
+      const grid = GridDataManager.createGridFromList(productsList);
+      this.container.append(grid);
 
       // Збільшуємо номер сторінки для наступного завантаження
       this.page++;
+      console.log("Current Page:", this.page);
     } catch (error) {
       console.error("Помилка завантаження елементів:", error);
     } finally {
@@ -57,7 +76,13 @@ class LoadOnScroll {
       this.loading = false;
     }
   }
-
+  setQuery(query) {
+    this.query = query;
+  }
+  resetPage() {
+    this.page = 0;
+    this.noMoreProducts = false; // Reset the noMoreProducts flag
+  }
   // Ініціалізація класу
   init() {
     // Завантажуємо першу порцію елементів
