@@ -15,7 +15,7 @@ class LoadOnScroll {
     //this.sort = "price:asc";
     // Флаг завантаження, щоб запобігти багаторазовим завантаженням
     this.loading = false;
-    this.noMoreProducts = false; // Flag to check if all products are loaded
+
     // Ініціалізація класу
     this.init();
   }
@@ -23,17 +23,14 @@ class LoadOnScroll {
   // Асинхронне завантаження елементів
   async loadItems() {
     // Якщо завантаження вже відбувається, виходимо
-    if (this.loading || this.noMoreProducts) return;
+    if (this.loading) return;
     // Встановлюємо прапор завантаження
     this.loading = true;
 
     try {
-      // Розкоментуйте цей код, якщо завантажуєте дані з API
       const response = await fetch(
-        //   `/api/v1${this.baseRoute}?page=${this.page}&limit=${this.itemsPerPage}`
         `http://localhost:3000/api/v1/products?page=${this.page}&limit=${this.itemsPerPage}&${this.query}`
       );
-      console.log("response-=-=-=-==--", response);
 
       if (!response.ok) {
         throw new Error(
@@ -41,29 +38,36 @@ class LoadOnScroll {
         );
       }
       const resData = await response.json();
-      console.log("resData-=-=-=-==--", resData);
+
       if (!resData.data || !resData.data.documents) {
         throw new Error("Invalid data format or no products found.");
       }
 
       // Додаємо завантажені елементи до контейнера
       let productsList = resData.data?.documents;
-      let count = resData.data?.count;
-      console.log("productsList==================", productsList);
-      console.log("count==================", count);
-      console.log("productsList.length==================", productsList.length);
-      // If no products were returned, stop further loading
-      if (productsList.length === count) {
-        this.noMoreProducts = true; // Set flag to stop loading
-        console.log("No more products to load.");
-      }
+
+      const items = productsList
+        .slice(
+          this.page * this.itemsPerPage,
+          (this.page + 1) * this.itemsPerPage
+        ) // Slice to get only the current page's products
+        .map((product, ind) => ({
+          name: `${ind + 1 + this.page * this.itemsPerPage} )  ${
+            product.title
+          }`,
+          title: product.title,
+          price: product.price,
+          image: product.image,
+          description: product.description,
+        }));
+
       // Обробка зображень продуктів
-      productsList.forEach((prod) => {
+      items.forEach((prod) => {
         if (prod.image && !prod.image.startsWith("data:"))
           prod.image = "data:image;base64," + prod.image;
       });
       // Створення таблиці продуктів
-      const grid = GridDataManager.createGridFromList(productsList);
+      const grid = GridDataManager.createGridFromList(items);
       this.container.append(grid);
 
       // Збільшуємо номер сторінки для наступного завантаження
@@ -81,7 +85,6 @@ class LoadOnScroll {
   }
   resetPage() {
     this.page = 0;
-    this.noMoreProducts = false; // Reset the noMoreProducts flag
   }
   // Ініціалізація класу
   init() {

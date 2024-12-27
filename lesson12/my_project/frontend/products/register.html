@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="../style/main.css" />
     <link rel="stylesheet" href="../style/style.css" />
     <!-- Підключення необхідних скриптів -->
-    <script src="../scripts/RequestManager.js"></script>
-    <script src="../scripts/FormManager.js"></script>
-    <script src="../scripts/ListDataManager.js"></script>
+    <script src="../scripts/components/RequestManager.js"></script>
+    <script src="../scripts/components/FormManager.js"></script>
+    <script src="../scripts/components/ListDataManager.js"></script>
     <script src="../scripts/settings.js"></script>
-    <script src="../scripts/HeaderManager.js"></script>
-    <script src="../scripts/BaseApiManager.js"></script>
-    <script src="../scripts/UsersApiManager.js"></script>
-    <script src="../scripts/ProductsApiManager.js"></script>
+    <script src="../scripts/components/HeaderManager.js"></script>
+    <script src="../scripts/api/BaseApiManager.js"></script>
+    <script src="../scripts/api/UsersApiManager.js"></script>
+    <script src="../scripts/api/ProductsApiManager.js"></script>
   </head>
   <body>
     <script>
@@ -29,7 +29,7 @@
       });
     </script>
     <!-- Контейнер -->
-    <div id="container">
+    <div id="container" class="edit-container">
       <h1 class="title">Product Form</h1>
     </div>
     <!-- Спіннер завантаження -->
@@ -41,7 +41,6 @@
     <div class="error-message" id="error-message" style="display: none;">
       Error occurred during loading data...
     </div>
-    <hr />
 
     <script>
       // Функція, що виконується при завантаженні сторінки

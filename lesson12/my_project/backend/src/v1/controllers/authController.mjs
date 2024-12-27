@@ -73,7 +73,10 @@ class AuthController {
         return res.status(401).json({ error: "User not found" });
       }
 
-      if (!user.validPassword(req.body.password)) {
+      // Check if the password matches the stored hashed password
+      const isPasswordValid = await user.validPassword(req.body.password);
+      console.log("isPasswordValid=========", isPasswordValid);
+      if (!isPasswordValid) {
         return res.status(401).json({ error: "Login error" });
       }
       const token = prepareToken(

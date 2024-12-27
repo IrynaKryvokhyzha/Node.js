@@ -6,7 +6,7 @@ const menuItems = [
     meta: { requireAuth: false, pageId: "products" },
   },
   {
-    href: "productsScroll/list.html",
+    href: "products/listScroll.html",
     text: "ProductsScroll",
     meta: { requireAuth: false, pageId: "productsScroll" },
   },

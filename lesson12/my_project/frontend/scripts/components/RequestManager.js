@@ -183,11 +183,7 @@ class RequestManager {
         method: "GET",
         headers: headers,
       });
-      const contentType = response.headers.get("Content-Type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text(); // Read the response as text (HTML)
-        throw new Error("Expected JSON, but received: " + text);
-      }
+
       if (response.ok) {
         const data = await response.json();
         return data;

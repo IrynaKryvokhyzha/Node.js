@@ -16,16 +16,16 @@ class PaginationManager {
     onClick,
   }) {
     // Зберігаємо параметри
-    this.totalItemsNumber = totalItemsNumber
-    this.itemsPerPage = itemsPerPage
-    this.currentPage = currentPage
+    this.totalItemsNumber = totalItemsNumber;
+    this.itemsPerPage = itemsPerPage;
+    this.currentPage = currentPage;
     // Обчислюємо загальну кількість сторінок
-    this.totalPages = Math.ceil(totalItemsNumber / itemsPerPage)
-    this.containerSelector = containerSelector
-    this.onClick = onClick
+    this.totalPages = Math.ceil(totalItemsNumber / itemsPerPage);
+    this.containerSelector = containerSelector;
+    this.onClick = onClick;
 
     // Рендеримо пагінацію
-    this.render()
+    this.render();
   }
 
   /**
@@ -33,69 +33,69 @@ class PaginationManager {
    */
   render() {
     // Отримуємо контейнер для рендерингу
-    const container = document.querySelector(this.containerSelector)
+    const container = document.querySelector(this.containerSelector);
     // Очищаємо вміст контейнера
-    container.innerHTML = ''
+    container.innerHTML = "";
 
     // Створюємо список для елементів пагінації
-    const ul = document.createElement('ul')
-    ul.classList.add('pagination')
+    const ul = document.createElement("ul");
+    ul.classList.add("pagination");
 
     // Додаємо кнопку "Попередня"
-    this.prevLi = document.createElement('li')
-    const prevLink = document.createElement('a')
-    prevLink.href = '#'
-    prevLink.textContent = 'Попередня'
-    this.prevLi.className = this.currentPage === 0 ? 'disabled' : ''
-    this.prevLi.addEventListener('click', () => {
+    this.prevLi = document.createElement("li");
+    const prevLink = document.createElement("a");
+    prevLink.href = "#";
+    prevLink.textContent = "Previous";
+    this.prevLi.className = this.currentPage === 0 ? "disabled" : "";
+    this.prevLi.addEventListener("click", () => {
       if (this.currentPage > 0) {
-        this.currentPage--
-        this.onClick(this.currentPage)
-        this.updatePaginationStyles()
+        this.currentPage--;
+        this.onClick(this.currentPage);
+        this.updatePaginationStyles();
       }
-    })
-    this.prevLi.append(prevLink)
-    ul.append(this.prevLi)
+    });
+    this.prevLi.append(prevLink);
+    ul.append(this.prevLi);
 
     // Додаємо кнопки сторінок
-    this.pageLinks = []
+    this.pageLinks = [];
     for (let i = 1; i <= this.totalPages; i++) {
-      const li = document.createElement('li')
-      const link = document.createElement('a')
-      link.href = '#'
-      link.textContent = i
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = "#";
+      link.textContent = i;
       if (i === this.currentPage + 1) {
-        li.classList.add('active')
+        li.classList.add("active");
       }
-      li.addEventListener('click', () => {
-        this.currentPage = i - 1
-        this.onClick(this.currentPage)
-        this.updatePaginationStyles()
-      })
-      li.append(link)
-      ul.append(li)
-      this.pageLinks.push(li)
+      li.addEventListener("click", () => {
+        this.currentPage = i - 1;
+        this.onClick(this.currentPage);
+        this.updatePaginationStyles();
+      });
+      li.append(link);
+      ul.append(li);
+      this.pageLinks.push(li);
     }
 
     // Додаємо кнопку "Наступна"
-    this.nextLi = document.createElement('li')
-    const nextLink = document.createElement('a')
-    nextLink.href = '#'
-    nextLink.textContent = 'Наступна'
+    this.nextLi = document.createElement("li");
+    const nextLink = document.createElement("a");
+    nextLink.href = "#";
+    nextLink.textContent = "Next";
     this.nextLi.className =
-      this.currentPage === this.totalPages - 1 ? 'disabled' : ''
-    this.nextLi.addEventListener('click', () => {
+      this.currentPage === this.totalPages - 1 ? "disabled" : "";
+    this.nextLi.addEventListener("click", () => {
       if (this.currentPage + 1 < this.totalPages) {
-        this.currentPage++
-        this.onClick(this.currentPage)
-        this.updatePaginationStyles()
+        this.currentPage++;
+        this.onClick(this.currentPage);
+        this.updatePaginationStyles();
       }
-    })
-    this.nextLi.append(nextLink)
-    ul.append(this.nextLi)
+    });
+    this.nextLi.append(nextLink);
+    ul.append(this.nextLi);
 
     // Додаємо список елементів пагінації до контейнера
-    container.append(ul)
+    container.append(ul);
   }
 
   /**
@@ -105,15 +105,15 @@ class PaginationManager {
     // Оновлюємо стиль активної кнопки сторінки
     this.pageLinks.forEach((link, index) => {
       if (index === this.currentPage) {
-        link.classList.add('active')
+        link.classList.add("active");
       } else {
-        link.classList.remove('active')
+        link.classList.remove("active");
       }
-    })
+    });
 
     // Оновлюємо стиль кнопок "Попередня" та "Наступна"
-    this.prevLi.className = this.currentPage === 0 ? 'disabled' : ''
+    this.prevLi.className = this.currentPage === 0 ? "disabled" : "";
     this.nextLi.className =
-      this.currentPage === this.totalPages - 1 ? 'disabled' : ''
+      this.currentPage === this.totalPages - 1 ? "disabled" : "";
   }
 }

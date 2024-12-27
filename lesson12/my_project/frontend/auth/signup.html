@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="../style/form.css" />
     <link rel="stylesheet" href="../style/style.css" />
     <!-- Підключення необхідних JavaScript файлів -->
-    <script src="../scripts/RequestManager.js"></script>
+    <script src="../scripts/components/RequestManager.js"></script>
     <script src="../scripts/settings.js"></script>
-    <script src="../scripts/HeaderManager.js"></script>
-    <script src="../scripts/LoginApiManager.js"></script>
+    <script src="../scripts/components/HeaderManager.js"></script>
+    <script src="../scripts/api/LoginApiManager.js"></script>
   </head>
   <body>
     <script>
@@ -79,13 +79,12 @@
             password: form.password.value,
             // confirmPassword: form['confirm-password'].value,
           };
-
-          // Перевірка, чи паролі співпадають
+          //  // Перевірка, чи паролі співпадають
           //  if (formData.password !== formData.confirmPassword) {
-          //    document.getElementById('messages').innerText = 'Паролі не співпадають!'
-          //    return
+          //    document.getElementById("messages").innerText =
+          //      "Паролі не співпадають!";
+          //    return;
           //  }
-
           try {
             // Виконуємо запит на реєстрацію через SignupApiManager
             const response = await LoginApiManager.signup(formData, (data) => {

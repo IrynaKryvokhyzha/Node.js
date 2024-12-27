@@ -11,12 +11,12 @@ class ListDataManager {
 
     if (createLinkFunction) {
       const editTh = document.createElement("th");
-      editTh.textContent = "Редагувати";
+      editTh.textContent = "Edit";
       headerRow.appendChild(editTh);
     }
     if (deleteFunction) {
       const deleteTh = document.createElement("th");
-      deleteTh.textContent = "Видалити";
+      deleteTh.textContent = "Delete";
       headerRow.appendChild(deleteTh);
     }
     thead.appendChild(headerRow);
@@ -51,14 +51,14 @@ class ListDataManager {
       const editTd = document.createElement("td");
       const editLink = document.createElement("a");
       editLink.href = createLinkFunction(item._id);
-      editLink.textContent = "Редагувати";
+      editLink.textContent = "Edit";
       editTd.appendChild(editLink);
       row.appendChild(editTd);
     }
     if (deleteFunction) {
       const deleteTd = document.createElement("td");
       const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Видалити";
+      deleteButton.textContent = "Delete";
       deleteButton.onclick = () => deleteFunction(item._id);
       deleteTd.appendChild(deleteButton);
       row.appendChild(deleteTd);

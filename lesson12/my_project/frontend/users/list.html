@@ -7,11 +7,11 @@
     <!-- Підключення CSS для стилів -->
     <link rel="stylesheet" href="../style/main.css" />
     <!-- Підключення необхідних скриптів -->
-    <script src="../scripts/RequestManager.js"></script>
-    <script src="../scripts/ListDataManager.js"></script>
+    <script src="../scripts/components/RequestManager.js"></script>
+    <script src="../scripts/components/ListDataManager.js"></script>
     <script src="../scripts/settings.js"></script>
-    <script src="../scripts/HeaderManager.js"></script>
-    <script src="../scripts/UsersApiManager.js"></script>
+    <script src="../scripts/components/HeaderManager.js"></script>
+    <script src="../scripts/api/UsersApiManager.js"></script>
     <!-- <script src="../scripts/UsersTypeApiManager.js"></script> -->
   </head>
   <body>
@@ -47,8 +47,8 @@
 
           // Check if user is admin and authenticated
           if (
-            RequestManager.isAuthenticated()
-            // && data?.user?.type?.title === "admin"
+            RequestManager.isAuthenticated() &&
+            data?.user?.type?.title === "admin"
           ) {
             const link = document.createElement("a");
             link.href = "./register.html";

@@ -6,10 +6,10 @@
     <title>Knitted and Crocheted Purses</title>
     <link rel="stylesheet" href="./style/main.css" />
     <link rel="stylesheet" href="./style/style.css" />
-    <script src="scripts/RequestManager.js"></script>
+    <script src="scripts/components/RequestManager.js"></script>
     <script src="scripts/settings.js"></script>
-    <script src="scripts/HeaderManager.js"></script>
-    <script src="scripts/LoginApiManager.js"></script>
+    <script src="scripts/components/HeaderManager.js"></script>
+    <script src="scripts/api/LoginApiManager.js"></script>
   </head>
   <body>
     <script>
@@ -22,13 +22,45 @@
       <!-- Banner section -->
       <div class="banner">
         <!-- Text section -->
-        <div class="text-section">
-          <h1>Knitted and Crocheted Purses</h1>
-          <p>
-            Discover unique and handcrafted purses, perfect for adding
-            personality to your style.
-          </p>
-          <a href="#" class="shop-button">Shop Now</a>
+        <div class="section">
+          <div class="text-section">
+            <h1>Knitted and Crocheted Purses</h1>
+            <p>
+              Discover unique and handcrafted purses, perfect for adding
+              personality to your style.
+            </p>
+            <a href="./products/list.html" class="shop-button">Shop Now</a>
+          </div>
+
+          <div class="p">
+            <h2>Задача 12</h2>
+            <div>
+              <p class="p">
+                За прикладом навчального проєкту (розглянутого на уроці) додати
+                у ваш додаток:
+              </p>
+            </div>
+            <div>
+              <p class="p">
+                1)сортування за якимось одним полем (або полями)
+              </p>
+            </div>
+            <div>
+              <p class="p">
+                2)пагінацію з кнопками
+              </p>
+            </div>
+            <div>
+              <p class="p">
+                3)пагінацію з скролінгом (на окремій копії сторінки)
+              </p>
+            </div>
+            <div>
+              <p>
+                4)додати можливість фільтрації
+              </p>
+            </div>
+          </div>
         </div>
 
         <!-- Image section -->
@@ -36,38 +68,6 @@
           <img src="./images/main.jpg" alt="Knitted and Crocheted Purse" />
         </div>
       </div>
-      <h1>Задача 12</h1>
-      <div>
-        <p>
-          Доробити навчальний проєкт
-        </p>
-      </div>
-      <div>
-        <p>
-          1)не відображати посилання "Додати новий продукт" , якщо користувач не
-          пройшов автентифікацію
-        </p>
-      </div>
-      <div>
-        <p>
-          2)Допрацювати можливість додавання продуктів, редагування та видалення
-          (необхідно додавати токени у запити)
-        </p>
-      </div>
-      <div>
-        <p>
-          3) Допрацювати можливість додавання користувачів, редагування та
-          видалення (необхідно додавати токени у запити)
-        </p>
-      </div>
-      <div>
-        <p>
-          4)якщо користувач не пройшов автентифікацію, а користувач скопіював
-          URL і пробує напряму перейти на сторінку користувачів, то не
-          відображати сторінку, а оразу перенаправляти його на LoginPage
-        </p>
-      </div>
-      <!-- </div> -->
     </main>
   </body>
 </html>

@@ -6,6 +6,7 @@
   row-gap: 40px;
   padding: 5px 20px 5px 20px;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 .title {
   color: #6d4c41;
@@ -15,6 +16,7 @@
 }
 .content {
   display: flex;
+  gap: 10px;
 }
 /* Grid item style */
 .product-item {
@@ -108,7 +110,7 @@
     text-decoration: none;
     margin: 10px;
     padding: 10px;
-    border: 2px solid #007bff;
+    border: 2px solid #6d4c41;
     border-radius: 8px;
     cursor: pointer;
     a {
@@ -116,7 +118,7 @@
     }
   }
   .active {
-    background-color: green;
+    background-color: #b4978c;
   }
   .disabled {
     background-color: lightgrey;
@@ -129,25 +131,27 @@
 }
 
 #pagination .pagination {
-  list-style: none; /* Видаляє маркери */
-  padding: 0; /* Видаляє відступи */
-  margin: 0; /* Видаляє поля */
-  display: flex; /* Робить елементи списку горизонтальними */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   gap: 10px; /* Додає відступи між елементами */
 }
 /* ------------ sort ------------- */
+.price-order-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  padding: 10px;
+}
 .price-order-selector {
   display: flex;
+  flex-direction: row;
   justify-content: flex-end; /* Розташування селектора справа */
   align-items: center;
   font-size: 16px;
-
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  padding: 10px;
   border-radius: 8px;
-  max-width: 800px;
-  margin: 20px auto;
+  width: fit-content;
 }
 
 .price-order-dropdown {
@@ -161,11 +165,13 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 20px;
+  padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
   max-width: 400px;
+  height: fit-content;
+  margin-top: 30px;
 }
 
 .filter {

@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="../style/product.css" />
     <link rel="stylesheet" href="../style/recet-styles.css" />
     <!-- Підключення необхідних скриптів -->
-    <script src="../scripts/RequestManager.js"></script>
-    <script src="../scripts/GrigDataManager.js"></script>
+    <script src="../scripts/components/RequestManager.js"></script>
+    <script src="../scripts/components/GrigDataManager.js"></script>
     <script src="../scripts/settings.js"></script>
-    <script src="../scripts/HeaderManager.js"></script>
-    <script src="../scripts/BaseApiManager.js"></script>
-    <script src="../scripts/ProductsApiManager.js"></script>
-    <script src="../scripts/PaginationManager.js"></script>
-    <script src="../scripts/PriceOrderSelector.js"></script>
-    <script src="../scripts/FiltersManager.js"></script>
+    <script src="../scripts/components/HeaderManager.js"></script>
+    <script src="../scripts/api/BaseApiManager.js"></script>
+    <script src="../scripts/api/ProductsApiManager.js"></script>
+    <script src="../scripts/components/PaginationManager.js"></script>
+    <script src="../scripts/components/PriceOrderSelector.js"></script>
+    <script src="../scripts/components/FiltersManager.js"></script>
   </head>
   <body>
     <script>
@@ -57,30 +57,16 @@
           let pageData = {};
           // Функція, що виконується при завантаженні сторінки
           window.onload = async function () {
-            //   const data = await ProductsApiManager.getProducts();
-            //   console.log("data", data);
-
             let priceOrderSelector, filtersManager;
 
-            // Function to check if the user is admin and authenticated
-            //   const showAddLink = (data) => {
             const showAddLink = () => {
               const addUserLink = document.getElementById("add-link");
-              // Check if user is admin and authenticated
-              const data = ProductsApiManager.getList();
-              if (
-                RequestManager.isAuthenticated()
-                //   &&
-                //  data?.users?.type?.title === "admin"
-              ) {
-                //  const user = resData.user;
-                //  if (user && user.type && user.type.title === "admin") {
+              if (!addUserLink.querySelector(".add-product")) {
                 const link = document.createElement("a");
                 link.href = "./register.html";
                 link.className = "add-product";
                 link.textContent = "Add Product";
                 addUserLink.appendChild(link);
-                //  }
               }
             };
 
@@ -119,17 +105,12 @@
 
                 if (Number.isFinite(page)) pageData.currentPage = page;
 
-                // Fetching data from server
                 const resData = await ProductsApiManager.getListWithQuery(
                   getFiltersQueryString()
                 );
                 const user = resData.user;
 
-                // Log the entire response to inspect the structure
-                console.log("Fetched response data:", resData);
-
                 let productsList = resData.data?.documents;
-                console.log("productsList==================", productsList);
 
                 pageData = {
                   ...pageData,
@@ -157,7 +138,6 @@
                       user?.type?.title === "admin" &&
                       deleteFunction
                   );
-                  // showAddLink(data);
                   if (
                     RequestManager.isAuthenticated() &&
                     user?.type?.title === "admin"
@@ -255,7 +235,7 @@
           };
         </script>
         <!-- Посилання для додавання нового продукту -->
-        <div id="pagination"></div>
+        <div id="pagination" class="pagination"></div>
       </div>
     </div>
   </body>

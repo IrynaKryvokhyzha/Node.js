@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="../style/product.css" />
     <link rel="stylesheet" href="../style/recet-styles.css" />
     <!-- Підключення необхідних скриптів -->
-    <script src="../scripts/RequestManager.js"></script>
-    <script src="../scripts/GrigDataManager.js"></script>
+    <script src="../scripts/components/RequestManager.js"></script>
+    <script src="../scripts/components/GrigDataManager.js"></script>
     <script src="../scripts/settings.js"></script>
-    <script src="../scripts/HeaderManager.js"></script>
-    <script src="../scripts/BaseApiManager.js"></script>
-    <script src="../scripts/PriceOrderSelector.js"></script>
-    <script src="../scripts/ProductsApiManager.js"></script>
-    <script src="../scripts/LoadOnScroll.js"></script>
-    <script src="../scripts/FiltersManager.js"></script>
+    <script src="../scripts/components/HeaderManager.js"></script>
+    <script src="../scripts/api/BaseApiManager.js"></script>
+    <script src="../scripts/components/PriceOrderSelector.js"></script>
+    <script src="../scripts/api/ProductsApiManager.js"></script>
+    <script src="../scripts/components/LoadOnScroll.js"></script>
+    <script src="../scripts/components/FiltersManager.js"></script>
   </head>
   <body>
     <script>
@@ -98,62 +98,7 @@
                 const query = getFiltersQueryString();
                 infiniteScroll.resetPage();
                 infiniteScroll.setQuery(query);
-                //itemsListContianer.innerHTML = "";
                 infiniteScroll.loadItems();
-
-                //  console.log(
-                //    "productsList+++++++++++++++++++++++",
-                //    productsList
-                //  );
-                //  if (productsList) {
-                //    productsList.forEach((prod) => {
-                //      if (prod.image && !prod.image.startsWith("data:"))
-                //        prod.image = "data:image;base64," + prod.image;
-                //    });
-
-                //    const grid = GridDataManager.createGridFromList(
-                //      productsList
-                //      // Implement actions like delete if necessary
-                //    );
-
-                //    gridContainer.append(grid);
-                //  } else {
-                //    throw new Error("No data");
-                //  }
-
-                //    // Обробка зображень продуктів
-                //    productsList.forEach((prod) => {
-                //      if (prod.image && !prod.image.startsWith("data:"))
-                //        prod.image = "data:image;base64," + prod.image;
-                //      // prod.sellerName = prod.seller.username;
-                //      // prod.sellerType = prod.seller.type.title;
-                //    });
-                //    const createLinkFunction = (id) => `./register.html?id=${id}`;
-                //    console.log("createLinkFunction===", createLinkFunction);
-
-                //    // Створення таблиці продуктів
-                //    const grid = GridDataManager.createGridFromList(
-                //      productsList,
-                //      RequestManager.isAuthenticated() &&
-                //        user?.type?.title === "admin" &&
-                //        createLinkFunction,
-
-                //      RequestManager.isAuthenticated() &&
-                //        user?.type?.title === "admin" &&
-                //        deleteFunction
-                //    );
-                //    // showAddLink(data);
-                //    if (
-                //      RequestManager.isAuthenticated() &&
-                //      user?.type?.title === "admin"
-                //    ) {
-                //      showAddLink();
-                //    }
-
-                //    gridContainer.append(grid);
-                //  } else {
-                //    throw new Error("No data");
-                //  }
               } catch (error) {
                 console.error("Помилка при завантаженні даних:", error);
                 errorMessage.style.display = "block";
