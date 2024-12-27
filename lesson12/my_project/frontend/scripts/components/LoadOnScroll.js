@@ -28,8 +28,11 @@ class LoadOnScroll {
     this.loading = true;
 
     try {
+      // const response = await fetch(
+      //   `http://localhost:3000/api/v1/products?page=${this.page}&limit=${this.itemsPerPage}&${this.query}`
+      // );
       const response = await fetch(
-        `http://localhost:3000/api/v1/products?page=${this.page}&limit=${this.itemsPerPage}&${this.query}`
+        `https://less12-backend.onrender.com/api/v1/products?page=${this.page}&limit=${this.itemsPerPage}&${this.query}`
       );
 
       if (!response.ok) {
