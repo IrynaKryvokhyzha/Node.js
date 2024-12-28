@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продукти</title>
+    <!-- Підключення CSS для стилів -->
+    <link rel="stylesheet" href="../style/main.css" />
+    <link rel="stylesheet" href="../style/style.css" />
+    <link rel="stylesheet" href="../style/product.css" />
+    <link rel="stylesheet" href="../style/recet-styles.css" />
+    <!-- Підключення необхідних скриптів -->
+    <script src="../scripts/components/RequestManager.js"></script>
+    <script src="../scripts/components/GrigDataManager.js"></script>
+    <script src="../scripts/settings.js"></script>
+    <script src="../scripts/components/HeaderManager.js"></script>
+    <script src="../scripts/api/BaseApiManager.js"></script>
+    <script src="../scripts/api/ProductsApiManager.js"></script>
+    <script src="../scripts/components/PaginationManager.js"></script>
+    <script src="../scripts/components/PriceOrderSelector.js"></script>
+    <script src="../scripts/components/FiltersManager.js"></script>
+  </head>
+  <body>
+    <script>
+      // Використання класу HeaderManager для створення заголовка з меню
+      document.addEventListener("DOMContentLoaded", () => {
+        new HeaderManager("products/list.html", menuItems);
+      });
+    </script>
+    <div class="wrapper">
+      <div class="container">
+        <h1 class="title">Explore our collection</h1>
+        <div class="content">
+          <div class="filters-container"></div>
+          <div class="container-with-products">
+            <div class="price-order-container"></div>
+
+            <!-- Контейнер для  продуктів -->
+            <div id="grid-container"></div>
+            <!-- Спіннер завантаження -->
+            <div class="loading" id="loading-spinner" style="display: none;">
+              <div class="spinner"></div>
+              Loading...
+            </div>
+            <!-- Повідомлення про помилку -->
+            <div
+              class="error-message"
+              id="error-message"
+              style="display: none;"
+            >
+              Error occurred during loading data...
+            </div>
+            <div id="add-link"></div>
+          </div>
+        </div>
+        <script>
+          let pageData = {};
+          // Функція, що виконується при завантаженні сторінки
+          window.onload = async function () {
+            let priceOrderSelector, filtersManager;
+
+            const showAddLink = () => {
+              const addUserLink = document.getElementById("add-link");
+              if (!addUserLink.querySelector(".add-product")) {
+                const link = document.createElement("a");
+                link.href = "./register.html";
+                link.className = "add-product";
+                link.textContent = "Add Product";
+                addUserLink.appendChild(link);
+              }
+            };
+
+            // Функція для видалення користувача за ідентифікатором
+            async function deleteFunction(id) {
+              const data = await ProductsApiManager.delete(id);
+              if (data.doLogout) return RequestManager.onLogout();
+              window.location.reload();
+            }
+
+            //функція застосування фільтрів
+            function getFiltersQueryString() {
+              const queryOptions = [
+                `page=${pageData.currentPage ?? 0}`,
+                `perPage=${pageData.perPage ?? 6}`,
+              ];
+              const filtersQueryString = filtersManager.getQueryString();
+              if (filtersQueryString) queryOptions.push(filtersQueryString);
+
+              queryOptions.push(
+                `sort=price:${priceOrderSelector.currentOrder}`
+              );
+              return queryOptions.join("&");
+            }
+
+            // Функція для отримання даних та відображення таблиці продуктів
+            async function fetchDataAndDisplay(page = 0) {
+              const loadingSpinner = document.getElementById("loading-spinner");
+              const errorMessage = document.getElementById("error-message");
+              const gridContainer = document.getElementById("grid-container");
+
+              try {
+                loadingSpinner.style.display = "block";
+                gridContainer.innerHTML = "";
+                errorMessage.style.display = "none";
+
+                if (Number.isFinite(page)) pageData.currentPage = page;
+
+                const resData = await ProductsApiManager.getListWithQuery(
+                  getFiltersQueryString()
+                );
+                const user = resData.user;
+
+                let productsList = resData.data?.documents;
+
+                pageData = {
+                  ...pageData,
+                  totalItemsNumber: resData.data?.count,
+                };
+                if (productsList) {
+                  // Обробка зображень продуктів
+                  productsList.forEach((prod) => {
+                    if (prod.image && !prod.image.startsWith("data:"))
+                      prod.image = "data:image;base64," + prod.image;
+                    // prod.sellerName = prod.seller.username;
+                    // prod.sellerType = prod.seller.type.title;
+                  });
+                  const createLinkFunction = (id) => `./register.html?id=${id}`;
+                  console.log("createLinkFunction===", createLinkFunction);
+
+                  // Створення таблиці продуктів
+                  const grid = GridDataManager.createGridFromList(
+                    productsList,
+                    RequestManager.isAuthenticated() &&
+                      user?.type?.title === "admin" &&
+                      createLinkFunction,
+
+                    RequestManager.isAuthenticated() &&
+                      user?.type?.title === "admin" &&
+                      deleteFunction
+                  );
+                  if (
+                    RequestManager.isAuthenticated() &&
+                    user?.type?.title === "admin"
+                  ) {
+                    showAddLink();
+                  }
+
+                  gridContainer.append(grid);
+                } else {
+                  throw new Error("No data");
+                }
+              } catch (error) {
+                console.error("Помилка при завантаженні даних:", error);
+                errorMessage.style.display = "block";
+              } finally {
+                loadingSpinner.style.display = "none";
+              }
+            }
+            // Initialize priceOrderSelector before using it
+            priceOrderSelector = new PriceOrderSelector(
+              ".price-order-container",
+              () => fetchDataAndDisplay(0)
+            );
+
+            //----------------------
+            // Отримання даних продуктів з сервера
+            const resFiltersData = await ProductsApiManager.getFiltersData();
+            console.log(
+              "resFiltersData==============>>>>>>>>>",
+              resFiltersData
+            );
+            if (resFiltersData?.data) {
+              const filtersConfig = [
+                {
+                  name: "title",
+                  title: "Product Title",
+                  type: "search",
+                },
+                {
+                  name: "price",
+                  title: "Price",
+                  type: "range",
+                  options: { min: 0, max: 1000 },
+                },
+                // {
+                //   title: "Тип продавця",
+                //   name: "type",
+                //   type: "dropdown",
+                //   options: resFiltersData.data.types.map((item) => ({
+                //     title: item.title,
+                //     value: item._id,
+                //   })),
+                // },
+                // {
+                //   title: "Продавець",
+                //   name: "seller",
+                //   type: "selectMany",
+                //   options: resFiltersData.data.users.map((item) => ({
+                //     title: item.username,
+                //     value: item._id,
+                //   })),
+                // },
+              ];
+              //   ---
+              filtersManager = new FiltersManager(
+                filtersConfig,
+                ".filters-container",
+                async () => {
+                  await fetchDataAndDisplay(0);
+                  //       //------------- додавання пагінації -----
+                  new PaginationManager({
+                    totalItemsNumber: pageData.totalItemsNumber,
+                    itemsPerPage: 4,
+                    currentPage: 0,
+                    containerSelector: "#pagination",
+                    onClick: async (page) => {
+                      await fetchDataAndDisplay(page);
+                    },
+                  });
+                }
+              );
+              // Виклик функції для отримання та відображення даних
+              await fetchDataAndDisplay(0);
+              //------------- додавання пагінації -----
+              new PaginationManager({
+                totalItemsNumber: pageData.totalItemsNumber,
+                itemsPerPage: 4,
+                currentPage: 0,
+                containerSelector: "#pagination",
+                onClick: async (page) => {
+                  await fetchDataAndDisplay(page);
+                },
+              });
+            }
+          };
+        </script>
+        <!-- Посилання для додавання нового продукту -->
+        <div id="pagination" class="pagination"></div>
+      </div>
+    </div>
+  </body>
+</html>

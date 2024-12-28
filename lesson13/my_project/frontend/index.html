@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knitted and Crocheted Purses</title>
+    <link rel="stylesheet" href="./style/main.css" />
+    <link rel="stylesheet" href="./style/style.css" />
+    <script src="scripts/components/RequestManager.js"></script>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/components/HeaderManager.js"></script>
+    <script src="scripts/api/LoginApiManager.js"></script>
+  </head>
+  <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        new HeaderManager("index.html", menuItems);
+      });
+    </script>
+    <main>
+      <!-- <div class="container"> -->
+      <!-- Banner section -->
+      <div class="banner">
+        <!-- Text section -->
+        <div class="section">
+          <div class="text-section">
+            <h1>Knitted and Crocheted Purses</h1>
+            <p>
+              Discover unique and handcrafted purses, perfect for adding
+              personality to your style.
+            </p>
+            <a href="./products/list.html" class="shop-button">Shop Now</a>
+          </div>
+
+          <div class="p">
+            <h2>Задача 12</h2>
+            <div>
+              <p class="p">
+                За прикладом навчального проєкту (розглянутого на уроці) додати
+                у ваш додаток:
+              </p>
+            </div>
+            <div>
+              <p class="p">
+                1)сортування за якимось одним полем (або полями)
+              </p>
+            </div>
+            <div>
+              <p class="p">
+                2)пагінацію з кнопками
+              </p>
+            </div>
+            <div>
+              <p class="p">
+                3)пагінацію з скролінгом (на окремій копії сторінки)
+              </p>
+            </div>
+            <div>
+              <p>
+                4)додати можливість фільтрації
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image section -->
+        <div class="image-section">
+          <img src="./images/main.jpg" alt="Knitted and Crocheted Purse" />
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

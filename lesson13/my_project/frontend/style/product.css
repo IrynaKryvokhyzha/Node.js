@@ -1,0 +1,211 @@
+/* Container for the grid */
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 45px;
+  row-gap: 40px;
+  padding: 5px 20px 5px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.title {
+  color: #6d4c41;
+  padding: 20px 50px 10px 50px;
+  font-size: 36px;
+  font-weight: 600;
+}
+.content {
+  display: flex;
+  gap: 10px;
+}
+/* Grid item style */
+.product-item {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+.product-item:hover {
+  transform: scale(1.1);
+}
+.product-image {
+  position: relative;
+  padding: 50%;
+}
+.product-image img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+.product-value {
+  padding: 8px;
+}
+.product-title {
+  font-size: 24px;
+  text-transform: capitalize;
+}
+.product-price {
+  font-size: 18px;
+}
+.product-description {
+  line-height: 1.5;
+}
+
+/* Styling buttons for delete/edit */
+.button-delete {
+  padding: 5px 10px;
+  cursor: pointer;
+
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.button-delete:hover {
+  background-color: #e60000;
+}
+
+.button-edit {
+  padding: 5px 10px;
+  cursor: pointer;
+  width: 100px;
+
+  background-color: #33a0a4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.button-edit:hover {
+  background-color: #1fd5dc;
+}
+.add-product {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #746558;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.add-product:hover {
+  background-color: #a58b75;
+}
+/* --------------- pagination ---------- */
+#pagination ul {
+  display: flex;
+  li {
+    text-decoration: none;
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #6d4c41;
+    border-radius: 8px;
+    cursor: pointer;
+    a {
+      text-decoration: none;
+    }
+  }
+  .active {
+    background-color: #b4978c;
+  }
+  .disabled {
+    background-color: lightgrey;
+    cursor: auto;
+    pointer-events: none;
+    a {
+      cursor: auto;
+    }
+  }
+}
+
+#pagination .pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px; /* Додає відступи між елементами */
+}
+/* ------------ sort ------------- */
+.price-order-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  padding: 10px;
+}
+.price-order-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; /* Розташування селектора справа */
+  align-items: center;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.price-order-dropdown {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+/* -------- filters ------------- */
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 400px;
+  height: fit-content;
+  margin-top: 30px;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.filter input[type="number"],
+.filter select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.filter input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.filter label input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.filter label {
+  display: flex;
+  align-items: center;
+}
+
+.filter label + label {
+  margin-top: 5px;
+}
