@@ -16,6 +16,7 @@
     <script src="../scripts/components/HeaderManager.js"></script>
     <script src="../scripts/api/BaseApiManager.js"></script>
     <script src="../scripts/api/ProductsApiManager.js"></script>
+    <script src="../scripts/api/CartApiManager.js"></script>
     <script src="../scripts/components/PaginationManager.js"></script>
     <script src="../scripts/components/PriceOrderSelector.js"></script>
     <script src="../scripts/components/FiltersManager.js"></script>
@@ -77,6 +78,9 @@
               window.location.reload();
             }
 
+            function addToCart(productId) {
+              return CartApiManager.addToCart(productId);
+            }
             //функція застосування фільтрів
             function getFiltersQueryString() {
               const queryOptions = [
@@ -124,19 +128,24 @@
                     // prod.sellerName = prod.seller.username;
                     // prod.sellerType = prod.seller.type.title;
                   });
+
                   const createLinkFunction = (id) => `./register.html?id=${id}`;
                   console.log("createLinkFunction===", createLinkFunction);
 
                   // Створення таблиці продуктів
                   const grid = GridDataManager.createGridFromList(
                     productsList,
+
                     RequestManager.isAuthenticated() &&
                       user?.type?.title === "admin" &&
                       createLinkFunction,
 
                     RequestManager.isAuthenticated() &&
                       user?.type?.title === "admin" &&
-                      deleteFunction
+                      deleteFunction,
+
+                    //   RequestManager.isAuthenticated() &&
+                    addToCart
                   );
                   if (
                     RequestManager.isAuthenticated() &&

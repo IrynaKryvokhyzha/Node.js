@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продукти</title>
+    <!-- Підключення CSS для стилів -->
+    <link rel="stylesheet" href="../style/main.css" />
+    <link rel="stylesheet" href="../style/style.css" />
+    <link rel="stylesheet" href="../style/product.css" />
+    <link rel="stylesheet" href="../style/recet-styles.css" />
+    <!-- Підключення необхідних скриптів -->
+    <script src="../scripts/components/RequestManager.js"></script>
+    <script src="../scripts/components/GrigDataManager.js"></script>
+    <script src="../scripts/settings.js"></script>
+    <script src="../scripts/components/HeaderManager.js"></script>
+    <script src="../scripts/api/BaseApiManager.js"></script>
+    <script src="../scripts/api/CartApiManager.js"></script>
+  </head>
+  <body>
+    <script>
+      // Використання класу HeaderManager для створення заголовка з меню
+      document.addEventListener("DOMContentLoaded", () => {
+        new HeaderManager("cart/cart.html", menuItems);
+      });
+    </script>
+    <div class="wrapper">
+      <div class="container">
+        <h1 class="title">Cart</h1>
+        <div class="content">
+          <div class="container-with-products">
+            <!-- <h1>Список продуктів</h1> -->
+            <div class="price-order-container"></div>
+            <!-- Контейнер для  продуктів -->
+            <div id="grid-container"></div>
+            <!-- Контейнер для виведення загалом -->
+            <h1 id="total-price-container"></h1>
+
+            <!-- Спіннер завантаження -->
+            <div class="loading" id="loading-spinner" style="display: none;">
+              <div class="spinner"></div>
+              Loading...
+            </div>
+            <!-- Повідомлення про помилку -->
+            <div
+              class="error-message"
+              id="error-message"
+              style="display: none;"
+            >
+              Error occurred during loading data...
+            </div>
+          </div>
+        </div>
+        <script>
+          // Функція, що виконується при завантаженні сторінки
+          window.onload = async function () {
+            // Функція для видалення користувача за ідентифікатором
+            async function deleteFunction(id) {
+              await CartApiManager.delete(id);
+              // window.location.reload()
+            }
+
+            // Функція для отримання даних та відображення таблиці продуктів
+            async function fetchDataAndDisplay(page = 0) {
+              const loadingSpinner = document.getElementById("loading-spinner");
+              const errorMessage = document.getElementById("error-message");
+              const gridContainer = document.getElementById("grid-container");
+
+              try {
+                loadingSpinner.style.display = "block";
+                gridContainer.innerHTML = "";
+                errorMessage.style.display = "none";
+
+                const resData = await CartApiManager.getList();
+                const user = resData.user;
+                console.log("resData==============>>>>>>>>>", resData);
+                let productsList = resData.data?.documents;
+                console.log(
+                  "productsList==============>>>>>>>>>",
+                  productsList
+                );
+
+                if (productsList) {
+                  if (productsList.length === 0) {
+                    document.getElementById("grid-container").innerText =
+                      "Корзина порожня";
+                    return;
+                  }
+                  // Обробка зображень продуктів
+                  productsList.forEach((prod) => {
+                    Object.assign(prod, {
+                      ...prod.details,
+                      //  sellerName: prod.seller.name,
+                      //  sellerType: prod.seller.type,
+                      //  sellerId: prod.seller._id,
+                    });
+
+                    if (prod.image && !prod.image.startsWith("data:"))
+                      prod.image = "data:image;base64," + prod.image;
+                    // prod.sellerName = prod.seller.username;
+                    // prod.sellerType = prod.seller.type.title;
+                  });
+
+                  // Створення таблиці продуктів
+                  const grid = GridDataManager.createGridFromList(productsList);
+
+                  gridContainer.append(grid);
+                } else {
+                  throw new Error("No data");
+                }
+              } catch (error) {
+                console.error("Помилка при завантаженні даних:", error);
+                errorMessage.style.display = "block";
+              } finally {
+                loadingSpinner.style.display = "none";
+              }
+            }
+          };
+        </script>
+      </div>
+    </div>
+  </body>
+</html>

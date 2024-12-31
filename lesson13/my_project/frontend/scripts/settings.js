@@ -5,16 +5,21 @@ const menuItems = [
     text: "Products",
     meta: { requireAuth: false, pageId: "products" },
   },
-  {
-    href: "products/listScroll.html",
-    text: "ProductsScroll",
-    meta: { requireAuth: false, pageId: "productsScroll" },
-  },
+  //   {
+  //     href: "products/listScroll.html",
+  //     text: "ProductsScroll",
+  //     meta: { requireAuth: false, pageId: "productsScroll" },
+  //   },
   {
     href: "users/list.html",
     text: "Users",
     id: "users-link",
     meta: { requireAuth: true, pageId: "users" },
+  },
+  {
+    href: "cart/cart.html",
+    text: "Cart",
+    meta: { requireAuth: true },
   },
   {
     href: "auth/login.html",
