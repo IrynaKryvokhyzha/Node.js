@@ -7,7 +7,7 @@
     <!-- Підключення CSS для стилів -->
     <link rel="stylesheet" href="../style/main.css" />
     <link rel="stylesheet" href="../style/style.css" />
-    <link rel="stylesheet" href="../style/product.css" />
+    <link rel="stylesheet" href="../style/cart.css" />
     <link rel="stylesheet" href="../style/recet-styles.css" />
     <!-- Підключення необхідних скриптів -->
     <script src="../scripts/components/RequestManager.js"></script>
@@ -57,7 +57,32 @@
             // Функція для видалення користувача за ідентифікатором
             async function deleteFunction(id) {
               await CartApiManager.delete(id);
-              // window.location.reload()
+              window.location.reload();
+            }
+
+            async function subtractFunction(id, amount) {
+              try {
+                await CartApiManager.updateProductsAmount(id, amount - 1);
+                await fetchDataAndDisplay(0);
+              } catch (err) {
+                console.error("Update product amount error:", err);
+                alert("Something went wrong! Quantity in not subtracted!");
+              }
+              //window.location.reload();
+            }
+
+            async function addAmountFunction(productId, amount) {
+              try {
+                await CartApiManager.updateProductsAmount(
+                  productId,
+                  amount + 1
+                );
+                await fetchDataAndDisplay(0);
+              } catch (err) {
+                console.error("Update product amount error:", err);
+                alert("Something went wrong! Quantity in not added!");
+              }
+              //window.location.reload();
             }
 
             // Функція для отримання даних та відображення таблиці продуктів
@@ -72,9 +97,9 @@
                 errorMessage.style.display = "none";
 
                 const resData = await CartApiManager.getList();
-                const user = resData.user;
+                //  const user = resData.user;
                 console.log("resData==============>>>>>>>>>", resData);
-                let productsList = resData.data?.documents;
+                let productsList = resData.data?.products;
                 console.log(
                   "productsList==============>>>>>>>>>",
                   productsList
@@ -83,38 +108,46 @@
                 if (productsList) {
                   if (productsList.length === 0) {
                     document.getElementById("grid-container").innerText =
-                      "Корзина порожня";
+                      "Cart is empty";
                     return;
                   }
                   // Обробка зображень продуктів
                   productsList.forEach((prod) => {
                     Object.assign(prod, {
                       ...prod.details,
-                      //  sellerName: prod.seller.name,
-                      //  sellerType: prod.seller.type,
-                      //  sellerId: prod.seller._id,
                     });
 
                     if (prod.image && !prod.image.startsWith("data:"))
                       prod.image = "data:image;base64," + prod.image;
-                    // prod.sellerName = prod.seller.username;
-                    // prod.sellerType = prod.seller.type.title;
                   });
 
                   // Створення таблиці продуктів
-                  const grid = GridDataManager.createGridFromList(productsList);
+                  const grid = GridDataManager.createGridFromList(
+                    productsList,
+                    null,
+                    deleteFunction,
+                    null,
+                    true,
+                    subtractFunction,
+                    addAmountFunction
+                  );
 
                   gridContainer.append(grid);
+                  document.getElementById(
+                    "total-price-container"
+                  ).innerText = `Total : $ ${resData.data.total} `;
                 } else {
                   throw new Error("No data");
                 }
               } catch (error) {
-                console.error("Помилка при завантаженні даних:", error);
+                console.error("Error occurred during loading data:", error);
                 errorMessage.style.display = "block";
               } finally {
                 loadingSpinner.style.display = "none";
               }
             }
+            // Виклик функції для отримання та відображення даних
+            await fetchDataAndDisplay(0);
           };
         </script>
       </div>
