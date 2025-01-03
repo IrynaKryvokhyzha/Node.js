@@ -34,7 +34,7 @@
             <!-- Контейнер для  продуктів -->
             <div id="grid-container"></div>
             <!-- Контейнер для виведення загалом -->
-            <h1 id="total-price-container"></h1>
+            <h1 id="total-price-container" class="total-price"></h1>
 
             <!-- Спіннер завантаження -->
             <div class="loading" id="loading-spinner" style="display: none;">
@@ -68,7 +68,6 @@
                 console.error("Update product amount error:", err);
                 alert("Something went wrong! Quantity in not subtracted!");
               }
-              //window.location.reload();
             }
 
             async function addAmountFunction(productId, amount) {
@@ -82,7 +81,6 @@
                 console.error("Update product amount error:", err);
                 alert("Something went wrong! Quantity in not added!");
               }
-              //window.location.reload();
             }
 
             // Функція для отримання даних та відображення таблиці продуктів
@@ -97,8 +95,8 @@
                 errorMessage.style.display = "none";
 
                 const resData = await CartApiManager.getList();
-                //  const user = resData.user;
                 console.log("resData==============>>>>>>>>>", resData);
+
                 let productsList = resData.data?.products;
                 console.log(
                   "productsList==============>>>>>>>>>",

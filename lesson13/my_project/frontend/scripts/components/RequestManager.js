@@ -134,6 +134,23 @@ class RequestManager {
       headers: headers,
       body: JSON.stringify(body),
     });
+    console.log("response================", response);
+    const data = await response.json();
+    return data;
+  }
+
+  // Загальний метод для виконання POST запиту
+  static async putRequest(url, body, addAuthorization = true) {
+    const headers = { "Content-Type": "application/json" };
+    if (addAuthorization && RequestManager.isAuthenticated()) {
+      headers["Authorization"] = `Bearer ${localStorage.getItem("jwt_token")}`;
+    }
+
+    const response = await fetch(this.getServerRoute(url), {
+      method: "PUT",
+      headers: headers,
+      body: JSON.stringify(body),
+    });
     const data = await response.json();
     return data;
   }

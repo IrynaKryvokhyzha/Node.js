@@ -1,5 +1,13 @@
 class GridDataManager {
-  static createGridItem(item, createLinkFunction, deleteFunction) {
+  static createGridItem(
+    item,
+    createLinkFunction,
+    deleteFunction,
+    addToCartFunction,
+    showQuantity = false,
+    subtractFunction = null,
+    addAmountFunction = null
+  ) {
     const itemDiv = document.createElement("div");
     itemDiv.classList.add("product-item");
 
@@ -12,50 +20,112 @@ class GridDataManager {
     imageDiv.appendChild(img);
     itemDiv.appendChild(imageDiv);
 
+    const contentDiv = document.createElement("div");
+    contentDiv.classList.add("product-content");
     // Title
     const titleDiv = document.createElement("div");
     titleDiv.classList.add("product-title");
     titleDiv.textContent = item.title;
-    itemDiv.appendChild(titleDiv);
+    contentDiv.appendChild(titleDiv);
 
     // Price
     const priceDiv = document.createElement("div");
     priceDiv.classList.add("product-price");
     priceDiv.textContent = "$ " + item.price;
-    itemDiv.appendChild(priceDiv);
+    contentDiv.appendChild(priceDiv);
 
     // Description
     const descriptionDiv = document.createElement("div");
     descriptionDiv.classList.add("product-description");
     descriptionDiv.textContent = item.description;
-    itemDiv.appendChild(descriptionDiv);
+    contentDiv.appendChild(descriptionDiv);
+
+    // Quantity
+    if (showQuantity) {
+      const quantityDiv = document.createElement("div");
+      quantityDiv.classList.add("product-quantity");
+
+      // -- "Quantity" label --
+      const quantityLabel = document.createElement("span");
+      quantityLabel.textContent = "Quantity: ";
+      quantityDiv.appendChild(quantityLabel);
+
+      // Subtract button ( “-” )
+      const subtractBtn = document.createElement("button");
+      subtractBtn.textContent = "-";
+      subtractBtn.disabled = item.amount === 1;
+      subtractBtn.onclick = () => {
+        if (subtractFunction) {
+          subtractFunction(item._id, item.amount);
+        } else {
+          console.warn("subtractFunction not provided!");
+        }
+      };
+      quantityDiv.appendChild(subtractBtn);
+
+      // Amount display
+      const amountSpan = document.createElement("span");
+      amountSpan.textContent = ` ${item.amount} `;
+      quantityDiv.appendChild(amountSpan);
+
+      // Add button ( “+” )
+      const addBtn = document.createElement("button");
+      addBtn.textContent = "+";
+      addBtn.onclick = () => {
+        if (addAmountFunction) {
+          addAmountFunction(item._id, item.amount);
+        } else {
+          console.warn("addAmountFunction not provided!");
+        }
+      };
+      quantityDiv.appendChild(addBtn);
+      contentDiv.appendChild(quantityDiv);
+    }
+    itemDiv.appendChild(contentDiv);
+
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.classList.add("buttons-container");
 
     // Edit Link
     if (createLinkFunction) {
-      const editLinkDiv = document.createElement("div");
       const editLink = document.createElement("a");
       editLink.classList.add("button-edit");
       editLink.href = createLinkFunction(item._id);
       editLink.textContent = "Edit";
-      editLinkDiv.appendChild(editLink);
-      itemDiv.appendChild(editLinkDiv);
+      buttonsContainer.appendChild(editLink);
     }
 
     // Delete Button
     if (deleteFunction) {
-      const deleteButtonDiv = document.createElement("div");
       const deleteButton = document.createElement("button");
       deleteButton.classList.add("button-delete");
       deleteButton.textContent = "Delete";
       deleteButton.onclick = () => deleteFunction(item._id);
-      deleteButtonDiv.appendChild(deleteButton);
-      itemDiv.appendChild(deleteButtonDiv);
+      buttonsContainer.appendChild(deleteButton);
     }
+
+    // Add to cart Button
+    if (addToCartFunction) {
+      const addToCartButton = document.createElement("button");
+      addToCartButton.classList.add("addToCart-button");
+      addToCartButton.textContent = "Add To Cart";
+      addToCartButton.onclick = () => addToCartFunction(item);
+      buttonsContainer.appendChild(addToCartButton);
+    }
+    itemDiv.appendChild(buttonsContainer);
 
     return itemDiv;
   }
 
-  static createGridFromList(data, createLinkFunction, deleteFunction) {
+  static createGridFromList(
+    data,
+    createLinkFunction,
+    deleteFunction,
+    addToCartFunction,
+    showQuantity = false,
+    subtractFunction = null,
+    addAmountFunction = null
+  ) {
     const gridContainer = document.createElement("div");
     gridContainer.classList.add("product-container");
 
@@ -64,7 +134,11 @@ class GridDataManager {
       const itemDiv = this.createGridItem(
         item,
         createLinkFunction,
-        deleteFunction
+        deleteFunction,
+        addToCartFunction,
+        showQuantity,
+        subtractFunction,
+        addAmountFunction
       );
       gridContainer.appendChild(itemDiv);
     });

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продукти</title>
+    <!-- Підключення CSS для стилів -->
+    <link rel="stylesheet" href="../style/main.css" />
+    <link rel="stylesheet" href="../style/products/list.css" />
+    <!-- Підключення необхідних скриптів -->
+    <script src="../scripts/api/RequestManager.js"></script>
+    <script src="../scripts/components/ListDataManager.js"></script>
+    <script src="../scripts/settings.js"></script>
+    <script src="../scripts/components/HeaderManager.js"></script>
+    <script src="../scripts/api/BaseApiManager.js"></script>
+    <script src="../scripts/api/CartApiManager.js"></script>
+  </head>
+  <body>
+    <div class="base-container">
+      <div class="content-container">
+        <script></script>
+        <!-- <h1>Список продуктів</h1> -->
+        <div class="price-order-container"></div>
+        <!-- Контейнер для таблиці з продуктами -->
+        <div id="table-container"></div>
+        <!-- Контейнер для виведення загалом -->
+        <h1 id="total-price-container"></h1>
+
+        <!-- Спіннер завантаження -->
+        <div class="loading" id="loading-spinner" style="display: none;">
+          <div class="spinner"></div>
+          Завантаження...
+        </div>
+        <!-- Повідомлення про помилку -->
+        <div class="error-message" id="error-message" style="display: none;">
+          Виникла помилка при завантаженні даних.
+        </div>
+        <hr />
+
+        <script>
+          // Функція, що виконується при завантаженні сторінки
+          window.onload = async function () {
+            // Використання класу HeaderManager для створення заголовка з меню
+
+            // const headerManager = new HeaderManager(
+            //   "cart/cart.html",
+            //   menuItems
+            // );
+
+            // Функція для видалення продукту за ідентифікатором
+            async function deleteFunction(id) {
+              await CartApiManager.delete(id);
+              // window.location.reload()
+            }
+
+            // Функція для отримання даних та відображення продуктів
+            async function fetchDataAndDisplay(page = 0) {
+              const loadingSpinner = document.getElementById("loading-spinner");
+              const errorMessage = document.getElementById("error-message");
+              const tableContainer = document.getElementById("table-container");
+
+              try {
+                loadingSpinner.style.display = "block";
+                tableContainer.innerHTML = "";
+                errorMessage.style.display = "none";
+
+                // Отримання даних продуктів з сервера
+                const resData = await CartApiManager.getList();
+                console.log("resData==================", resData);
+                let productsList = resData?.data?.products;
+
+                if (productsList) {
+                  if (productsList.length === 0) {
+                    document.getElementById("table-container").innerText =
+                      "Корзина порожня";
+                    return;
+                  }
+                  // Обробка зображень продуктів
+                  productsList.forEach((prod) => {
+                    Object.assign(prod, {
+                      ...prod.details,
+                      //  sellerName: prod.seller.name,
+                      //  sellerType: prod.seller.type,
+                      //  sellerId: prod.seller._id,
+                    });
+
+                    if (prod.image && !prod.image.startsWith("data:"))
+                      prod.image = "data:image;base64," + prod.image;
+                  });
+                  // Поля для відобржаення у таблиці
+                  const fields = {
+                    image: "",
+                    title: "Назва",
+                    price: "Ціна",
+                    sellerName: {
+                      type: "a",
+                      title: "Продавець",
+                      linkGetter: (item) =>
+                        `${headerManager.basePath}products/seller_products.html?id=${item.sellerId}`,
+                      contentGetter: (item) => item.sellerName,
+                    },
+                    sellerType: "Тип продавця",
+                    amount: "Кількість",
+                    totalProductsPrice: "Загалом",
+
+                    subtract: {
+                      type: "button",
+                      title: "",
+                      isDisabled: (item) => item.amount == 1,
+                      onClick: (item) => {
+                        CartApiManager.updateProductsAmount(
+                          item._id,
+                          item.amount - 1
+                        )
+                          .then(async () => {
+                            await fetchDataAndDisplay(0);
+                          })
+                          .catch(() =>
+                            alert("Помилка ! Кількість не зменшено !")
+                          );
+                      },
+                      contentGetter: (item) => "-",
+                    },
+                    add: {
+                      type: "button",
+                      title: "",
+                      isDisabled: (item) => false,
+                      onClick: (item) => {
+                        CartApiManager.updateProductsAmount(
+                          item._id,
+                          item.amount + 1
+                        )
+                          .then(async () => {
+                            await fetchDataAndDisplay(0);
+                          })
+                          .catch(() =>
+                            alert("Помилка ! Кількість не збільшено !")
+                          );
+                      },
+                      contentGetter: (item) => "+",
+                    },
+                  };
+
+                  // Створення таблиці продуктів
+                  const table = ListDataManager.createTableFromList(
+                    productsList,
+                    fields,
+                    null,
+                    deleteFunction
+                  );
+
+                  tableContainer.append(table);
+
+                  document.getElementById(
+                    "total-price-container"
+                  ).innerText = `Всього до оплати : ${resData.data.total} грн.`;
+                } else {
+                  throw new Error("Дані відсутні");
+                }
+              } catch (error) {
+                console.error("Помилка при завантаженні даних:", error);
+                errorMessage.style.display = "block";
+              } finally {
+                loadingSpinner.style.display = "none";
+              }
+            }
+
+            // Виклик функції для отримання та відображення даних
+            await fetchDataAndDisplay(0);
+          };
+        </script>
+      </div>
+    </div>
+  </body>
+</html>

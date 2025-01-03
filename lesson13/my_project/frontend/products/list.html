@@ -77,10 +77,14 @@
               if (data.doLogout) return RequestManager.onLogout();
               window.location.reload();
             }
-
-            function addToCart(productId) {
-              return CartApiManager.addToCart(productId);
+            function addToCart(item) {
+              CartApiManager.addToCart(item._id)
+                .then(() => {
+                  alert("Product added to a cart.");
+                })
+                .catch(() => alert("Product was not added to a cart!"));
             }
+
             //функція застосування фільтрів
             function getFiltersQueryString() {
               const queryOptions = [
@@ -125,8 +129,6 @@
                   productsList.forEach((prod) => {
                     if (prod.image && !prod.image.startsWith("data:"))
                       prod.image = "data:image;base64," + prod.image;
-                    // prod.sellerName = prod.seller.username;
-                    // prod.sellerType = prod.seller.type.title;
                   });
 
                   const createLinkFunction = (id) => `./register.html?id=${id}`;
@@ -144,8 +146,8 @@
                       user?.type?.title === "admin" &&
                       deleteFunction,
 
-                    //   RequestManager.isAuthenticated() &&
-                    addToCart
+                    addToCart,
+                    false
                   );
                   if (
                     RequestManager.isAuthenticated() &&
