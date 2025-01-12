@@ -25,6 +25,11 @@ class BaseApiManager {
     return RequestManager.fetchData(`${this.routeBase}/${id}`);
   }
 
+  //   async getOne(productId) {
+  //     const url = `${this.routeBase}/${productId}`;
+  //     return RequestManager.getRequest(url);
+  //   }
+
   async getBasedOnQueryId() {
     const id = RequestManager.getQueryParam("id");
     if (id) return this.getById(id);

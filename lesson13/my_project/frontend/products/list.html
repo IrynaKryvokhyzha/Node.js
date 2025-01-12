@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Продукти</title>
+    <title>Products</title>
     <!-- Підключення CSS для стилів -->
     <link rel="stylesheet" href="../style/main.css" />
     <link rel="stylesheet" href="../style/style.css" />
@@ -82,7 +82,9 @@
                 .then(() => {
                   alert("Product added to a cart.");
                 })
-                .catch(() => alert("Product was not added to a cart!"));
+                .catch(() =>
+                  alert("Product was not added to a cart. Login first.")
+                );
             }
 
             //функція застосування фільтрів

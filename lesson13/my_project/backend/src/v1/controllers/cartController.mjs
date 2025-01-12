@@ -41,7 +41,7 @@ class ProductController {
         productId,
       });
 
-      res.status(200).json({ message: "Product added successfully" });
+      res.status(200).json({ message: "Product was added successfully" });
     } catch (err) {
       console.log(err);
       res.status(500).json({ errors: [{ msg: err.message }] });

@@ -8,6 +8,10 @@ class GridDataManager {
     subtractFunction = null,
     addAmountFunction = null
   ) {
+    const link = document.createElement("a");
+    link.classList.add("product-link");
+    link.href = `details.html?id=${item._id}`;
+
     const itemDiv = document.createElement("div");
     itemDiv.classList.add("product-item");
 
@@ -114,7 +118,8 @@ class GridDataManager {
     }
     itemDiv.appendChild(buttonsContainer);
 
-    return itemDiv;
+    link.appendChild(itemDiv);
+    return link;
   }
 
   static createGridFromList(

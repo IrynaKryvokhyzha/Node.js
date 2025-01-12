@@ -216,6 +216,19 @@ class RequestManager {
     }
   }
 
+  static async getRequest(route) {
+    const url = this.getServerRoute(route);
+
+    const response = await fetch(url, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Request failed with status " + response.status);
+    }
+    return response.json();
+  }
+
   // Метод для отримання налаштувань
   static async fetchSettings() {
     return this.fetchData("/settings", false);
