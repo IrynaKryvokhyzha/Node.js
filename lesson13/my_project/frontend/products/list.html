@@ -11,11 +11,13 @@
     <link rel="stylesheet" href="../style/recet-styles.css" />
     <!-- Підключення необхідних скриптів -->
     <script src="../scripts/components/RequestManager.js"></script>
-    <script src="../scripts/components/GrigDataManager.js"></script>
+    <script src="../scripts/components/GridDataManager.js"></script>
+    <script src="../scripts/utils/helpers.js"></script>
     <script src="../scripts/settings.js"></script>
     <script src="../scripts/components/HeaderManager.js"></script>
     <script src="../scripts/api/BaseApiManager.js"></script>
     <script src="../scripts/api/ProductsApiManager.js"></script>
+    <script src="../scripts/api/UsersApiManager.js"></script>
     <script src="../scripts/api/CartApiManager.js"></script>
     <script src="../scripts/components/PaginationManager.js"></script>
     <script src="../scripts/components/PriceOrderSelector.js"></script>
@@ -77,14 +79,22 @@
               if (data.doLogout) return RequestManager.onLogout();
               window.location.reload();
             }
+
+            //adds to cart only if user is logged in
+            const user = JSON.parse(localStorage.getItem("user"));
+            console.log("user===>", user);
             function addToCart(item) {
-              CartApiManager.addToCart(item._id)
-                .then(() => {
-                  alert("Product added to a cart.");
-                })
-                .catch(() =>
-                  alert("Product was not added to a cart. Login first.")
-                );
+              if (user) {
+                CartApiManager.addToCart(item._id)
+                  .then(() => {
+                    alert("Product added to a cart.");
+                  })
+                  .catch(() =>
+                    alert("Product was not added to a cart. Login first.")
+                  );
+              } else {
+                alert("Please login first.");
+              }
             }
 
             //функція застосування фільтрів
@@ -237,7 +247,7 @@
               //------------- додавання пагінації -----
               new PaginationManager({
                 totalItemsNumber: pageData.totalItemsNumber,
-                itemsPerPage: 4,
+                itemsPerPage: 6,
                 currentPage: 0,
                 containerSelector: "#pagination",
                 onClick: async (page) => {

@@ -8,21 +8,23 @@ class GridDataManager {
     subtractFunction = null,
     addAmountFunction = null
   ) {
-    const link = document.createElement("a");
-    link.classList.add("product-link");
-    link.href = `details.html?id=${item._id}`;
-
     const itemDiv = document.createElement("div");
     itemDiv.classList.add("product-item");
+
+    const detailLink = document.createElement("a");
+    detailLink.classList.add("product-link");
+    detailLink.href = `details.html?id=${item._id}`;
+    //  detailLink.href = `${window.location.origin}/products/details.html?id=${item._id}`;
+    //  detailLink.href = getDetailPageUrl(item._id);
 
     // Image
     const imageDiv = document.createElement("div");
     imageDiv.classList.add("product-image");
     const img = document.createElement("img");
-    img.src = item.image; // Directly use the image field from the product
-    img.alt = item.title; // Use title for alt text
+    img.src = item.image;
+    img.alt = item.title;
     imageDiv.appendChild(img);
-    itemDiv.appendChild(imageDiv);
+    detailLink.appendChild(imageDiv);
 
     const contentDiv = document.createElement("div");
     contentDiv.classList.add("product-content");
@@ -43,7 +45,11 @@ class GridDataManager {
     descriptionDiv.classList.add("product-description");
     descriptionDiv.textContent = item.description;
     contentDiv.appendChild(descriptionDiv);
+    detailLink.appendChild(contentDiv);
+    itemDiv.appendChild(detailLink);
 
+    const actionsDiv = document.createElement("div");
+    actionsDiv.classList.add("product-actions");
     // Quantity
     if (showQuantity) {
       const quantityDiv = document.createElement("div");
@@ -83,9 +89,10 @@ class GridDataManager {
         }
       };
       quantityDiv.appendChild(addBtn);
-      contentDiv.appendChild(quantityDiv);
+      actionsDiv.appendChild(quantityDiv);
+
+      itemDiv.appendChild(actionsDiv);
     }
-    itemDiv.appendChild(contentDiv);
 
     const buttonsContainer = document.createElement("div");
     buttonsContainer.classList.add("buttons-container");
@@ -118,8 +125,7 @@ class GridDataManager {
     }
     itemDiv.appendChild(buttonsContainer);
 
-    link.appendChild(itemDiv);
-    return link;
+    return itemDiv;
   }
 
   static createGridFromList(
