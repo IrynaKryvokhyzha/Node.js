@@ -19,9 +19,11 @@
   padding: 20px 50px 10px 50px;
   font-size: 36px;
   font-weight: 600;
+  text-align: center;
 }
 .content {
   display: flex;
+  flex-direction: row;
   gap: 10px;
   width: 100%;
 }
@@ -263,4 +265,35 @@
 
 .filter label + label {
   margin-top: 5px;
+}
+@media screen and (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+  .filters-container {
+    align-self: flex-end;
+    margin: 10px;
+  }
+  .title {
+    padding: 20px;
+    font-size: 28px;
+  }
+  .container-with-products {
+    gap: 5px;
+  }
+}
+@media screen and (max-width: 484.99px) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .filters-container {
+    width: 100%;
+  }
+  .product-container {
+    row-gap: 10px;
+  }
+  #pagination .pagination {
+    gap: 5px;
+  }
 }

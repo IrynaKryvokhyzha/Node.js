@@ -136,3 +136,10 @@
   font-weight: 600;
   padding: 20px 50px 10px 20px;
 }
+@media screen and (max-width: 768px) {
+  .product-item {
+    flex-direction: column;
+
+    gap: 5px;
+  }
+}

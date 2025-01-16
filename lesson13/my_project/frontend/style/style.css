@@ -27,6 +27,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow: hidden;
 }
 .wrapper > main {
   flex-grow: 1;
@@ -63,7 +64,8 @@ a {
 }
 
 /* Button style */
-.shop-button {
+.shop-button,
+.contact-button {
   display: inline-block;
   background-color: #6d4c41;
   color: white;
@@ -75,7 +77,8 @@ a {
   transition: background-color 0.3s;
 }
 
-.shop-button:hover {
+.shop-button:hover,
+.contact-button:hover {
   background-color: #8e7b6b;
 }
 
@@ -183,5 +186,41 @@ a {
     flex-direction: column;
     gap: 20px;
     padding: 10px;
+  }
+}
+
+.contact-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  color: #746558;
+  padding: 70px 20px;
+}
+.contact {
+}
+.contact-title {
+  font-size: 2.5rem;
+}
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact-button {
+  width: fit-content;
+}
+@media screen and (max-width: 768px) {
+  .contact-section {
+    padding: 20px;
+  }
+  .contact-title {
+    font-size: 2rem;
+  }
+}
+@media screen and (max-width: 500px) {
+  .contact-section {
+    padding: 10px;
+  }
+  .contact-title {
+    font-size: 1.5rem;
   }
 }

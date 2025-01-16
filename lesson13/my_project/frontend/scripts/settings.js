@@ -11,6 +11,11 @@ const menuItems = [
   //     meta: { requireAuth: false, pageId: "productsScroll" },
   //   },
   {
+    href: "contact/contact.html",
+    text: "Contact Us",
+    meta: { requireAuth: false, pageId: "contact" },
+  },
+  {
     href: "users/list.html",
     text: "Users",
     id: "users-link",
